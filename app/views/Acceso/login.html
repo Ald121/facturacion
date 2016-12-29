@@ -1,0 +1,31 @@
+
+<div class="tc-white-1 p+" flex-container="column" flex-align="space-between center" style="height: 250px">
+    <div class="p+" style="width: 30%;">
+    <div class="card">
+        <div class="card__img card__img--top">
+            <img src="/images/login.jpg">
+            <span class="fs-headline tc-white-1 display-block">BIENVENIDO A ----------</span>
+        </div>
+    <form name="formlogin" ng-submit="Ingresar()">
+        <div class="p+">
+            <div class="paragraph fs-body-1">
+                <lx-text-field lx-label="Usuario" lx-fixed-label="true" lx-icon="account" require>
+                    <input type="text" name="nick" ng-model="data_usuario.nick">
+                </lx-text-field>
+                <span class="text-field-error" ng-if="formlogin.nick.$error.required">Campo Requerido</span>
+                <lx-text-field lx-label="Contraseña" lx-fixed-label="true" lx-icon="key" require>
+                    <input type="password" ng-model="data_usuario.clave">
+                </lx-text-field>
+                
+            </div>
+        </div>
+    <div class="card__actions tc-white-1 p+" flex-container="row" flex-column="16" flex-gutter="24">
+        <div flex-item="3"></div>
+        <div flex-item="9"></div>
+        <div flex-item="4"><lx-button type="submit" lx-type="flat" flex-item="4" ng-disabled="formlogin.$invalid">INGRESAR</lx-button></div>
+    </div>
+    </form>
+    </div>
+</div>
+
+</div>
