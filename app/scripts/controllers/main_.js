@@ -12,7 +12,7 @@ var app = angular.module('facturacionApp');
 app.controller('MainCtrl', function ($scope, $location,$localStorage) {
 
 	$scope.Ingresar=function(){
-		console.log('guardar');
+		console.log('Ingresar');
 	}
 
 	  	});

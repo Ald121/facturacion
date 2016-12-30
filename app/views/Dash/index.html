@@ -1,0 +1,38 @@
+<div class="toolbar bgc-indigo-900 tc-white-1">
+    <div class="toolbar__left mr++">
+        <!-- <lx-button lx-size="l" lx-color="blue" lx-type="icon"><i class="mdi mdi-menu tc-white-1"></i></lx-button> -->
+    </div>
+    <span class="toolbar__label fs-title">Bienvenido</span>
+    <div class="toolbar__right">
+        <lx-dropdown lx-position="right" lx-over-toggle="true">
+            <lx-dropdown-toggle>
+                <lx-button lx-size="l" lx-color="blue" lx-type="icon"><i class="mdi mdi-dots-vertical tc-white-1"></i></lx-button>
+            </lx-dropdown-toggle>
+            <lx-dropdown-menu>
+                <ul>
+                    <li><a class="dropdown-link">Action</a></li>
+                    <li><a class="dropdown-link">Another action</a></li>
+                    <li><a class="dropdown-link">Something else here</a></li>
+                    <li class="dropdown-divider"></li>
+                    <li><a class="dropdown-link dropdown-link--is-header">Header</a></li>
+                    <li><a class="dropdown-link">Separated link</a></li>
+                </ul>
+            </lx-dropdown-menu>
+        </lx-dropdown>
+    </div>
+</div>
+<md-sidenav layout="column" class="main-sidenav md-sidenav-left " style="-webkit-box-shadow: 1px 2px 5px 0px rgba(150,150,150,1);
+-moz-box-shadow: 1px 2px 5px 0px rgba(150,150,150,1);
+box-shadow: 1px 2px 5px 0px rgba(150,150,150,1);position:fixed !important; top: 64px;" md-component-id="navigation-drawer" md-is-locked-open="$mdMedia('gt-md')" layout="column">
+    <md-content md-scroll-y flex layout="column" >
+        <ul>
+            <li ng-repeat="menu in nav_bar" ><a class="dropdown-link " ng-href="#!/{{menu.path}}" ng-class="[{'tc-indigo-200': menu.children.length>0,'tc-indigo-900': menu.children.length==0}]"><i class="mdi {{menu.icon}}" ng-class="[{'tc-indigo-200': menu.children.length>0,'tc-indigo-900': menu.children.length==0}]"></i> {{menu.label}}</a>
+                <ul>
+                 <li ng-repeat="item in menu.children" style="padding-left: 5%;"><a class="dropdown-link {{item.color}}" ng-href="#!/{{item.path}}"><i class="mdi {{item.icon}} {{item.color}}"></i> {{item.label}}</a></li>
+                 <li class="dropdown-divider-nav "></li>
+                </ul>
+            </li>
+        </ul>
+    </md-content>
+</md-sidenav>
+<div app-view-segment="1" class="card" style="margin: 1% 1% 1% 18%;"></div>
