@@ -22,7 +22,7 @@ angular
     'view-segment', //vista segmentos 
      'ngStorage',
      'lumx',
-     'ngMaterial'
+     'ngMaterial',
   ])
   .config(function ($routeSegmentProvider, $routeProvider) {
         // Configuring provider options    
@@ -44,12 +44,12 @@ angular
         .when('/Dash',    'dashboard')
         .when('/Dash/Inicio',    'dashboard.inicio')
         //Inventario
-        .when('/Dash/Inventario',    'dashboard.inventario')
-            .when('/Dash/Inventario/Categorias',    'dashboard.inventario.categoria')
-            .when('/Dash/Inventario/Marcas',    'dashboard.inventario.marcas')
-            .when('/Dash/Inventario/Modelos',    'dashboard.inventario.modelos')
-            .when('/Dash/Inventario/Productos',    'dashboard.inventario.productos')
-            .when('/Dash/Inventario/Proveedores',    'dashboard.inventario.proveedores')
+        // .when('/Dash/Inventario',    'dashboard.inventario')
+            .when('/Dash/Inventario/Categorias',    'dashboard.categoria')
+            .when('/Dash/Inventario/Marcas',    'dashboard.marcas')
+            .when('/Dash/Inventario/Modelos',    'dashboard.modelos')
+            .when('/Dash/Inventario/Productos',    'dashboard.productos')
+            .when('/Dash/Inventario/Proveedores',    'dashboard.proveedores')
 
         .segment('dashboard', {
                 templateUrl: 'views/Dash/index.html',
@@ -63,11 +63,6 @@ angular
                     })
 
          // ----------------------------------------INVENTARIO----------------------------------------
-            .segment('inventario', {
-                        // templateUrl: 'views/Dash/Inventario/Categorias/index.html',
-                        // controller: 'InventarioCtrl'
-                    })
-                        .within()
                             .segment('categoria', {
                                 templateUrl: 'views/Dash/Inventario/Categorias/index.html',
                                 controller: 'InventarioCtrl'
@@ -85,10 +80,8 @@ angular
                                 controller: 'InventarioCtrl'
                             })
                             .segment('productos', {
-                                 default: true,
                                 templateUrl: 'views/Dash/Inventario/Productos/index.html',
                                 controller: 'InventarioCtrl'
                             })
-                            .up()
             .up()
     });

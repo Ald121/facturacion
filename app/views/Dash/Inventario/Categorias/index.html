@@ -1,18 +1,24 @@
 <md-button ng-href="#/Inventario/" aria-label="btn_in">Inventario</md-button>/
 <md-button ng-disabled="true" class="md-primary" aria-label="btn_in">Categorías</md-button>
+<md-button class="md-icon-button" ng-click="nuevo_dialog($event)" aria-label="Add">
+<md-icon md-svg-icon="images/icons/add.svg"></md-icon>
+<md-tooltip md-direction="bottom" >
+          Añadir Categoria
+</md-tooltip>   
+</md-button>
 <md-divider></md-divider>
 <md-content layout-padding layout-wrap>
     <md-table-container>
         <div layout="row">
+            <div flex="8" style="padding-top: 1%;">
+                
+            </div>
             <div flex="90">
                 <md-input-container class="md-icon-float md-block" layout="column" aria-label="Close">
                     <!-- <md-icon class="md-primary">search</md-icon> -->
                     <label>Búsqueda</label>
                     <input name="nom_tipo_categoria" ng-model="query.filter" type="text">
                 </md-input-container>
-            </div>
-            <div flex="10">
-                <md-button layout="column" class="md-accent" ng-click="inv_tc_dialog_nuevo($event)">Nuevo</md-button>
             </div>
         </div>
 
@@ -29,13 +35,13 @@
                     <td md-cell>{{dessert.nombre}}</td>
                     <td md-cell>{{dessert.descripcion}}</td>
                     <td md-cell>
-                        <md-button class="md-icon-button" ng-click="inv_tc_dialog_editar(dessert)" type="button">
+                        <md-button class="md-icon-button" ng-click="dialog_editar(dessert)" type="button">
                             <md-tooltip md-direction="top">
                                 Modificar
                             </md-tooltip>
                             <md-icon class="md-primary">mode_edit</md-icon>
                         </md-button>
-                        <md-button class="md-icon-button" ng-click="inv_tc_dialog_eliminar(dessert)" type="button">
+                        <md-button class="md-icon-button" ng-click="dialog_eliminar(dessert)" type="button">
                             <md-tooltip md-direction="top">
                                 Eliminar
                             </md-tooltip>

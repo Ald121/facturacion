@@ -1,31 +1,36 @@
 
 <div class="tc-white-1 p+" flex-container="column" flex-align="space-between center" style="height: 250px">
     <div class="p+" style="width: 30%;">
-    <div class="card">
-        <div class="card__img card__img--top">
-            <img src="/images/login.jpg">
-            <span class="fs-headline tc-white-1 display-block">BIENVENIDO A ----------</span>
-        </div>
-    <form name="formlogin" ng-submit="Ingresar()">
-        <div class="p+">
-            <div class="paragraph fs-body-1">
-                <lx-text-field lx-label="Usuario" lx-fixed-label="true" lx-icon="account" require>
-                    <input type="text" name="nick" ng-model="data_usuario.nick">
-                </lx-text-field>
-                <span class="text-field-error" ng-if="formlogin.nick.$error.required">Campo Requerido</span>
-                <lx-text-field lx-label="Contraseña" lx-fixed-label="true" lx-icon="key" require>
-                    <input type="password" ng-model="data_usuario.clave">
-                </lx-text-field>
-                
-            </div>
-        </div>
-    <div class="card__actions tc-white-1 p+" flex-container="row" flex-column="16" flex-gutter="24">
-        <div flex-item="3"></div>
-        <div flex-item="9"></div>
-        <div flex-item="4"><lx-button type="submit" lx-type="flat" flex-item="4" ng-disabled="formlogin.$invalid">INGRESAR</lx-button></div>
-    </div>
-    </form>
-    </div>
+    <form name="form_login" ng-submit="Ingresar()">
+   <md-card>
+        <img ng-src="images/login.jpg" class="md-card-image" alt="Washed Out">
+        <md-card-title>
+          <md-card-title-text>
+            <md-button class="md-primary md-hue-1" ><span>BIENVENIDOS A BIZ</span></md-button>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+          <md-input-container class="md-icon-float md-block">
+                        <md-icon md-svg-icon="images/icons/user.svg"></md-icon>
+                        <label>Usuario</label>
+                        <input name="nick" ng-model="data_user.nick" type="text" required>
+                        <div ng-messages="form_login.nick.$error" ng-show="form_login.nick.$dirty">
+                            <div ng-message="required">Campo Requerido</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container md-no-float class="md-block">
+                        <md-icon md-svg-icon="images/icons/pass.svg"></md-icon>
+                        <label>Contraseña</label>
+                        <input name="clave" ng-model="data_user.clave" type="text" required>
+                        <div ng-messages="form_login.clave.$error" ng-show="form_login.clave.$dirty">
+                            <div ng-message="required">Campo Requerido</div>
+                        </div>
+                    </md-input-container>
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button type="submit" class="md-primary md-hue-1" ng-disabled="form_login.$invalid">INGRESAR</md-button>
+        </md-card-actions>
+      </md-card>
+      </form>
 </div>
-
 </div>
