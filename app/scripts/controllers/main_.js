@@ -16,7 +16,8 @@ app.controller('MainCtrl', function ($scope, $location,$localStorage,Login_Servi
 				if (data.respuesta==true) {
 					$localStorage.datosUser=data.datosUser;
 					$localStorage.token=data.token;
-					LxNotificationService.success('Bienvenido'+'--User--');
+					LxNotificationService.success('Bienvenido'+data.datosUser.id);
+					$location.path('/Dash/Inicio');
 				}else{
 					 LxNotificationService.error('Usuario/Contraseña Incorrecta');
 				}

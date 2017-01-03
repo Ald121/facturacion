@@ -22,7 +22,7 @@ angular
     'view-segment', //vista segmentos 
      'ngStorage',
      'lumx',
-     'ngMaterial',
+     'ngMaterial'
   ])
   .config(function ($routeSegmentProvider, $routeProvider) {
         // Configuring provider options    

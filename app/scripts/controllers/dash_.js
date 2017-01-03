@@ -9,6 +9,7 @@
  */
 angular.module('facturacionApp')
   app.controller('DashCtrl', function ($scope, $location,$localStorage) {
+  	$scope.user=$localStorage.datosUser;
 			$scope.menu_inicio=[
 			{'label':'INVENTARIO','icon':'/images/modulos/inventario.png','path':'Dash/Inicio','children':
 				[
