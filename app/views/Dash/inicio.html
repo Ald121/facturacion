@@ -4,20 +4,20 @@
                 <div class="tc-white-1 p+" flex-container="row" flex-column="16" flex-gutter="24">
                             <div class="card img-over" flex-item="2" ng-repeat="menu in menu_inicio" >
                                 <div class="card__img card__img--top">
-                                    <a ng-href="#!/{{menu.path}}"><img ng-src="{{menu.icon}}" ></a>
+                                    <a ng-href="#!/{{menu.children[0].path}}"><img ng-src="{{menu.icon}}" ></a>
                                 </div>
                                 <div class="p+">
-                                    <a ng-href="#!/{{menu.path}}"><strong><span class="fs-subhead tc-black-2 display-block">{{menu.label}}</span></strong></a>
+                                    <strong><span class="fs-subhead tc-black-2 display-block">{{menu.label}}</span></strong>
                                 </div>
                                 <div class="card__actions">
-                                    <lx-button lx-color="blue" ng-click="ingresar_modulo(menu)" lx-type="flat">INGRESAR</lx-button>
+                                    <lx-button lx-color="blue" ng-href="#!/{{menu.children[0].path}}" lx-type="flat">INGRESAR</lx-button>
                                     <lx-dropdown ng-show="menu.children.length>0">
                                     <lx-dropdown-toggle>
                                         <lx-button lx-size="l" lx-color="blue" lx-type="icon"><i class="mdi mdi-dots-vertical "></i></lx-button>
                                     </lx-dropdown-toggle>
                                     <lx-dropdown-menu>
                                         <ul>
-                                            <li ng-repeat="item in menu.children"><a class="dropdown-link">{{item.label}}</a></li>
+                                            <li ng-repeat="item in menu.children"><a class="dropdown-link" ng-href="#!/{{item.path}}"><i class="mdi {{item.iconmdi}}"></i>{{item.label}}</a></li>
                                         </ul>
                                     </lx-dropdown-menu>
                                 </lx-dropdown>

@@ -31,11 +31,11 @@
                 </tr>
             </thead>
             <tbody md-body>
-                <tr md-row md-select="dessert" md-select-id="name" md-auto-select ng-repeat="dessert in tipo_categorias">
+                <tr md-row md-select="dessert" md-select-id="name" md-auto-select ng-repeat="dessert in data_table">
                     <td md-cell>{{dessert.nombre}}</td>
                     <td md-cell>{{dessert.descripcion}}</td>
                     <td md-cell>
-                        <md-button class="md-icon-button" ng-click="dialog_editar(dessert)" type="button">
+                        <md-button class="md-icon-button" ng-click="dialog_update(dessert)" type="button">
                             <md-tooltip md-direction="top">
                                 Modificar
                             </md-tooltip>

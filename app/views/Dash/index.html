@@ -11,12 +11,10 @@
             </lx-dropdown-toggle>
             <lx-dropdown-menu>
                 <ul>
-                    <li><a class="dropdown-link">Action</a></li>
-                    <li><a class="dropdown-link">Another action</a></li>
-                    <li><a class="dropdown-link">Something else here</a></li>
+                    <li><a class="dropdown-link">Perfil</a></li>
                     <li class="dropdown-divider"></li>
                     <!-- <li><a class="dropdown-link dropdown-link--is-header">Header</a></li> -->
-                    <li><a class="dropdown-link"><i class="mdi mdi-power-plug-off" ></i>Salir</a></li>
+                    <li><a class="dropdown-link" ng-click="salir()"><i class="mdi mdi-power-plug-off" ></i>Salir</a></li>
                 </ul>
             </lx-dropdown-menu>
         </lx-dropdown>
@@ -27,9 +25,11 @@
 box-shadow: 1px 2px 5px 0px rgba(150,150,150,1);position:fixed !important; top: 64px;" md-component-id="navigation-drawer" md-is-locked-open="$mdMedia('gt-md')" layout="column">
     <md-content md-scroll-y flex layout="column" >
         <ul>
-            <li ng-repeat="menu in nav_bar" ><a class="dropdown-link " ng-href="#!/{{menu.path}}" ng-class="[{'tc-indigo-200': menu.children.length>0,'tc-indigo-900': menu.children.length==0}]"><i class="mdi {{menu.icon}}" ng-class="[{'tc-indigo-200': menu.children.length>0,'tc-indigo-900': menu.children.length==0}]"></i> {{menu.label}}</a>
+            <li ><a class="dropdown-link tc-indigo-900" ng-href="#!/Dash"><i class="mdi mdi-home tc-indigo-900"></i> INICIO</a></li>
+            <li class="dropdown-divider-nav "></li>
+            <li ng-repeat="menu in nav_bar" ><a class="dropdown-link " ng-href="#!/{{menu.path}}" ng-class="[{'tc-indigo-200': menu.children.length>0,'tc-indigo-900': menu.children.length==0}]"><i class="mdi {{menu.iconmdi}}" ng-class="[{'tc-indigo-200': menu.children.length>0,'tc-indigo-900': menu.children.length==0}]"></i> {{menu.label}}</a>
                 <ul>
-                 <li ng-repeat="item in menu.children" style="padding-left: 5%;"><a class="dropdown-link {{item.color}}" ng-href="#!/{{item.path}}"><i class="mdi {{item.icon}} {{item.color}}"></i> {{item.label}}</a></li>
+                 <li ng-repeat="item in menu.children" style="padding-left: 5%;"><a class="dropdown-link {{item.color}}" ng-href="#!/{{item.path}}"><i class="mdi {{item.iconmdi}} {{item.color}}"></i> {{item.label}}</a></li>
                  <li class="dropdown-divider-nav "></li>
                 </ul>
             </li>

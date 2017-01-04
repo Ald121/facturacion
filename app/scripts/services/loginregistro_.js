@@ -17,10 +17,7 @@ angular.module('facturacionApp')
 				            In: function() {
 				                return $resource(Servicios_Generales.server()+'Acceso', {} , {
 								            ingresar: {
-									                method: 'POST', isArray: false,
-									                params: {
-									                    token: $localStorage.token
-									                }
+									                method: 'POST', isArray: false
 									            }
 								        });
 				            }

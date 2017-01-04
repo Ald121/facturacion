@@ -22,7 +22,8 @@ angular
     'view-segment', //vista segmentos 
      'ngStorage',
      'lumx',
-     'ngMaterial'
+     'ngMaterial',
+     'io-barcode'
   ])
   .config(function ($routeSegmentProvider, $routeProvider) {
         // Configuring provider options    
@@ -65,23 +66,23 @@ angular
          // ----------------------------------------INVENTARIO----------------------------------------
                             .segment('categoria', {
                                 templateUrl: 'views/Dash/Inventario/Categorias/index.html',
-                                controller: 'InventarioCtrl'
+                                controller: 'CategoriasCtrl'
                             })
                             .segment('marcas', {
                                 templateUrl: 'views/Dash/Inventario/Marcas/index.html',
-                                controller: 'InventarioCtrl'
+                                controller: 'MarcasCtrl'
                             })
                             .segment('modelos', {
                                 templateUrl: 'views/Dash/Inventario/Modelos/index.html',
-                                controller: 'InventarioCtrl'
+                                controller: 'ModelosCtrl'
                             })
                             .segment('proveedores', {
                                 templateUrl: 'views/Dash/Inventario/Proveedores/index.html',
-                                controller: 'InventarioCtrl'
+                                controller: 'ProveedoresCtrl'
                             })
                             .segment('productos', {
                                 templateUrl: 'views/Dash/Inventario/Productos/index.html',
-                                controller: 'InventarioCtrl'
+                                controller: 'ProductosCtrl'
                             })
             .up()
     });

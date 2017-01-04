@@ -1,1 +1,40 @@
-Nuevo
+<md-dialog aria-label="Mango (Fruit)">
+    <form name="form_add" ng-submit="guardar()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Nuevo, Modelo</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon aria-label="Close dialog">close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <md-content class="md-no-momentum">
+                    <md-input-container class="md-icon-float md-block">
+                        <md-icon class="md-primary">view_compact</md-icon>
+                        <label>Nombre del Modelo</label>
+                        <input name="nom_tipo_categoria" ng-model="data.nombre" type="text" required>
+                        <div ng-messages="form_add.nom_tipo_categoria.$error" ng-show="form_add.nom_tipo_categoria.$dirty">
+                            <div ng-message="required">Campo Requerido</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container md-no-float class="md-block">
+                        <md-icon class="md-primary">description</md-icon>
+                        <label>Descripcion</label>
+                        <textarea name="descripcion" ng-model="data.descripcion" type="text" required></textarea>
+                        <div ng-messages="form_add.descripcion.$error" ng-show="form_add.descripcion.$dirty">
+                            <div ng-message="required">Campo Requerido</div>
+                        </div>
+                    </md-input-container>
+                </md-content>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">Cancelar</md-button>
+            <md-button type="reset">Limpiar</md-button>
+            <md-button class="md-raised md-primary" type="submit" ng-disabled="btn_guardar">Guardar</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
