@@ -243,4 +243,22 @@ angular.module('facturacionApp')
         				}
 		        
 	    	}
+
+	    	// --------------------------------------- Tipo_Gastos ---------------------------------
+    this.Tipo_Gastos = function(){
+	    		 return {
+				         Get: function() {
+				                return $resource(Servicios_Generales.server()+'Get_Tipo_Gastos', {} , {
+								            send: {
+									                method: 'POST', isArray: false,
+									                params: {
+									                    token: $localStorage.token
+									                }
+									            }
+								});
+
+				            }
+        				}
+		        
+	    	}
   });

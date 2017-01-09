@@ -115,7 +115,7 @@ var app =angular.module('facturacionApp');
 
   app.controller('MarcasCtrl', function ($scope,$rootScope, $location,$localStorage,$mdDialog,Inventario_Services) {
 			$scope.selected=[];
-			// -------------------------------------------------------CATEGORIAS------------------------------------------------------------
+			// -------------------------------------------------------MARCAS------------------------------------------------------------
 			//------------------------------------------------- LLENADO DE TABLA -----------------------------------------
 			function success_tabla(result){
 				$scope.data_table=result.respuesta.data;
@@ -220,7 +220,7 @@ var app =angular.module('facturacionApp');
 
  app.controller('ModelosCtrl', function ($scope,$rootScope, $location,$localStorage,$mdDialog,Inventario_Services) {
 			$scope.selected=[];
-			// -------------------------------------------------------CATEGORIAS------------------------------------------------------------
+			// -------------------------------------------------------MODELOS------------------------------------------------------------
 			//------------------------------------------------- LLENADO DE TABLA -----------------------------------------
 			function success_tabla(result){
 				$scope.data_table=result.respuesta.data;
@@ -325,6 +325,11 @@ var app =angular.module('facturacionApp');
 
 app.controller('ProductosCtrl', function ($scope,$rootScope, $location,$localStorage,$mdDialog,Inventario_Services) {
 			$scope.selected=[];
+			
+			function selectCallback(_newValue, _oldValue) {
+            console.log('Old value: ', _oldValue);
+            console.log('New value: ', _newValue);
+        	}
 			// -------------------------------------------------------PRODUCTOS------------------------------------------------------------
 			//------------------------------------------------- LLENADO DE TABLA -----------------------------------------
 			function success_tabla(result){
@@ -351,16 +356,72 @@ app.controller('ProductosCtrl', function ($scope,$rootScope, $location,$localSto
         	});
 			}
 
-			function DialogController_nuevo($scope,Inventario_Services,LxNotificationService) {
+			function DialogController_nuevo($scope,Inventario_Services,LxNotificationService,Servicios_Generales,FileUploader) {
+
+				// ------------------------------LLENADO SELECTS ------------------------------
+				var cm = $scope;
+				function succes_categorias(result){
+			        cm.selectCallback = selectCallback;
+			        cm.ListCategorias = result.respuesta.data;
+			        cm.selectModelCiudad = {
+			            selectedCategoria: undefined
+			        };
+				}
+				Inventario_Services.Categorias().Get().send({},succes_categorias).$promise;
+
+				function succes_Tipo_gastos(result){
+			        cm.selectCallback = selectCallback;
+			        cm.ListTipoGastos = result.respuesta.data;
+			        cm.ModelTipoGastos = {
+			            selectedTipoGastos: undefined
+			        };
+				}
+				Inventario_Services.Tipo_Gastos().Get().send({},succes_Tipo_gastos).$promise;
+
+				function succes_Modelos(result){
+			        cm.selectCallback = selectCallback;
+			        cm.LIstaModelos = result.respuesta.data;
+			        cm.ModelModelos = {
+			            selectedModelo: undefined
+			        };
+				}
+				Inventario_Services.Modelos().Get().send({},succes_Modelos).$promise;
+
+
+				function succes_Marcas(result){
+			        cm.selectCallback = selectCallback;
+			        cm.ListaMarcas = result.respuesta.data;
+			        cm.ModelMarcas = {
+			            selectedMarca: undefined
+			        };
+				}
+				Inventario_Services.Marcas().Get().send({},succes_Marcas).$promise;
+			        
+			    // ------------------------------FIN LLENADO SELECTS ------------------------------
+
+			    var uploader = $scope.uploader = new FileUploader({
+			        url: Servicios_Generales.server()+'Add_Productos',
+			        headers: {
+			        Authorization: 'Bearer ' + $localStorage.token,
+			        },
+			        removeAfterUpload:true
+			    });
+
+			    // FILTERS
+
+			    uploader.filters.push({
+			        name: 'customFilter',
+			        fn: function(item /*{File|FileLikeObject}*/, options) {
+			            return this.queue.length < 10;
+			        }
+			    });
+			    uploader.onAfterAddingFile = function(fileItem) {
+			         fileItem.formData=$scope.data_producto;
+			         console.log(fileItem);
+			    };
 
 				$scope.guardar=function(){
-					Inventario_Services.Productos().Add().send($scope.data).$promise.then(function(data){
-						if (data.respuesta==true) {
-							$rootScope.$emit("actualizar_tabla", {});
-							$mdDialog.hide();
-							LxNotificationService.success('Se ha guardado correctamente');
-						}
-					})
+					$scope.uploader.uploadAll();
 				}
 
 				$scope.cancel = function() {

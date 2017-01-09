@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-angular
+var app=angular
   .module('facturacionApp', [
     'ngAnimate',
     'md.data.table',
@@ -23,9 +23,10 @@ angular
      'ngStorage',
      'lumx',
      'ngMaterial',
-     'io-barcode'
-  ])
-  .config(function ($routeSegmentProvider, $routeProvider) {
+     'io-barcode',
+     'angularFileUpload'
+  ]);
+  app.config(function ($routeSegmentProvider, $routeProvider) {
         // Configuring provider options    
         $routeSegmentProvider.options.autoLoadTemplates = true;            
                 
@@ -86,3 +87,20 @@ angular
                             })
             .up()
     });
+
+  app.run(['$rootScope', '$location', 'Auth', function ($rootScope, $location, Auth) {
+    $rootScope.$on('$routeChangeStart', function (event) {
+        if (!Auth.isLoggedIn()) {
+            console.log('Acceso Denegado');
+            // event.preventDefault();
+            $location.path('/');
+        }
+        else {
+            if ($location.path()=='/') {
+                $location.path('/Dash');
+            }
+            //$location.path('/Dash');
+            
+        }
+    });
+}]);

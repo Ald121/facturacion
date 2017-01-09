@@ -10,11 +10,14 @@
 angular.module('facturacionApp')
   app.controller('DashCtrl', function ($scope, $location,$localStorage,Login_Services,LxNotificationService,Servicios_Generales) {
   	$scope.user=$localStorage.datosUser;
+  	$scope.progress=false;
   	function success_menu(data){
   		$scope.menu_inicio=data.menu_inicio;
   		$scope.nav_bar=data.menu_inicio;
+  		$scope.progress=false;
   	}
   	$scope.get_menu=function(){
+  		$scope.progress=true;
   		Servicios_Generales.Menu().Get({},success_menu).$promise.then(function(data){},function(error){
   			$scope.get_menu();
   	});

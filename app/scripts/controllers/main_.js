@@ -9,7 +9,7 @@
  */
 var app = angular.module('facturacionApp');
 
-app.controller('MainCtrl', function ($scope, $location,$localStorage,Login_Services,LxNotificationService) {
+app.controller('MainCtrl', function ($scope, $location,$localStorage,Login_Services,LxNotificationService,Auth) {
 	//------------------------------------------------------------------------------- Acceso -----------------------------------
 	$scope.progreso=false;
 		$scope.Ingresar=function(){
@@ -18,6 +18,7 @@ app.controller('MainCtrl', function ($scope, $location,$localStorage,Login_Servi
 				if (data.respuesta==true) {
 					$localStorage.datosUser=data.datosUser;
 					$localStorage.token=data.token;
+					// Auth.setUser(data.datosUser);
 					LxNotificationService.success('Bienvenido '+data.datosUser.id);
 					$location.path('/Dash/Inicio');
 					$scope.progreso=false;
