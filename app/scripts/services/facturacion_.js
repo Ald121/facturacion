@@ -8,13 +8,13 @@
  * Service in the facturacionApp.
  */
 angular.module('facturacionApp')
-  .service('Inventario_Services', function ($localStorage, $resource,Servicios_Generales) {
+  .service('Facturacion_Services', function ($localStorage, $resource,Servicios_Generales) {
     // AngularJS will instantiate a singleton by calling "new" on this function
     // --------------------------------------- Categorias ---------------------------------
-    this.Categorias = function(){
+    this.Clientes = function(){
 	    		 return {
 				            Existencia: function() {
-				                return $resource(Servicios_Generales.server()+'Existencia_Categorias', {} , {
+				                return $resource(Servicios_Generales.server()+'Existencia_Clientes', {} , {
 								            send: {
 									                method: 'POST', isArray: false,
 									                params: {
@@ -24,7 +24,7 @@ angular.module('facturacionApp')
 								        });
 				            },
 				            Add: function() {
-				                return $resource(Servicios_Generales.server()+'Add_Categorias', {} , {
+				                return $resource(Servicios_Generales.server()+'Add_Clientes', {} , {
 								            send: {
 									                method: 'POST', isArray: false,
 									                params: {
@@ -34,7 +34,7 @@ angular.module('facturacionApp')
 								        });
 				            }
 				            ,Update: function() {
-				                return $resource(Servicios_Generales.server()+'Update_Categorias', {} , {
+				                return $resource(Servicios_Generales.server()+'Update_Clientes', {} , {
 								            send: {
 									                method: 'POST', isArray: false,
 									                params: {
@@ -44,7 +44,7 @@ angular.module('facturacionApp')
 								        });
 
 				            },Delete: function() {
-				                return $resource(Servicios_Generales.server()+'Delete_Categorias', {} , {
+				                return $resource(Servicios_Generales.server()+'Delete_Clientes', {} , {
 								            send: {
 									                method: 'POST', isArray: false,
 									                params: {
@@ -53,7 +53,7 @@ angular.module('facturacionApp')
 									            }
 								        });
 				            },Get: function() {
-				                return $resource(Servicios_Generales.server()+'Get_Categorias', {} , {
+				                return $resource(Servicios_Generales.server()+'Get_Clientes', {} , {
 								            send: {
 									                method: 'POST', isArray: false,
 									                params: {

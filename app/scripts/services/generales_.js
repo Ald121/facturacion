@@ -10,7 +10,7 @@
 angular.module('facturacionApp')
   .service('Servicios_Generales', function ($localStorage, $resource) {
     // AngularJS will instantiate a singleton by calling "new" on this function
-    var ip_server="http://192.168.0.108/";
+    var ip_server="http://192.168.0.110/";
     this.server=function() {
         return ip_server+"servicios_facturacion/public/";
     };
@@ -25,4 +25,13 @@ angular.module('facturacionApp')
 									            }
 		        });
 	    	}
+
+     this.Localizacion = function(){
+     	return $resource(dir_server+'Get_Localizacion', {} , {
+				            get: {
+					                method: 'POST', isArray: false
+					            }
+		        });
+     }
+	    	
   });

@@ -12,13 +12,37 @@ var app =angular.module('facturacionApp');
 			$scope.selected=[];
 			// -------------------------------------------------------CATEGORIAS------------------------------------------------------------
 			//------------------------------------------------- LLENADO DE TABLA -----------------------------------------
+
+			var bookmark;
+			$scope.query = {
+			        filter: '',
+			        num_registros: 5,
+			        pagina_actual: 1,
+			        limit: '5',
+			        page_num: 1
+			    };
+
 			function success_tabla(result){
 				$scope.data_table=result.respuesta.data;
 			}
 			$scope.get_tabla=function(){
-				Inventario_Services.Categorias().Get().send({},success_tabla).$promise
+				Inventario_Services.Categorias().Get().send($scope.query,success_tabla).$promise
 			}
-			$scope.get_tabla();
+
+			$scope.$watch('query.filter', function(newValue, oldValue) {
+		        if (!oldValue) {
+		            bookmark = $scope.query.page;
+		        }
+
+		        if (newValue !== oldValue) {
+		            $scope.query.page = 1;
+		        }
+
+		        if (!newValue) {
+		            $scope.query.page = bookmark;
+		        }
+		        $scope.get_tabla();
+		    });
 
 			$rootScope.$on("actualizar_tabla", function() {
         		$scope.get_tabla();
@@ -117,13 +141,37 @@ var app =angular.module('facturacionApp');
 			$scope.selected=[];
 			// -------------------------------------------------------MARCAS------------------------------------------------------------
 			//------------------------------------------------- LLENADO DE TABLA -----------------------------------------
+
+			var bookmark;
+			$scope.query = {
+			        filter: '',
+			        num_registros: 5,
+			        pagina_actual: 1,
+			        limit: '5',
+			        page_num: 1
+			    };
+
 			function success_tabla(result){
 				$scope.data_table=result.respuesta.data;
 			}
 			$scope.get_tabla=function(){
-				Inventario_Services.Marcas().Get().send({},success_tabla).$promise
+				Inventario_Services.Marcas().Get().send($scope.query,success_tabla).$promise
 			}
-			$scope.get_tabla();
+
+			$scope.$watch('query.filter', function(newValue, oldValue) {
+		        if (!oldValue) {
+		            bookmark = $scope.query.page;
+		        }
+
+		        if (newValue !== oldValue) {
+		            $scope.query.page = 1;
+		        }
+
+		        if (!newValue) {
+		            $scope.query.page = bookmark;
+		        }
+		        $scope.get_tabla();
+		    });
 
 			$rootScope.$on("actualizar_tabla", function() {
         		$scope.get_tabla();
@@ -222,13 +270,37 @@ var app =angular.module('facturacionApp');
 			$scope.selected=[];
 			// -------------------------------------------------------MODELOS------------------------------------------------------------
 			//------------------------------------------------- LLENADO DE TABLA -----------------------------------------
+
+			var bookmark;
+			$scope.query = {
+			        filter: '',
+			        num_registros: 5,
+			        pagina_actual: 1,
+			        limit: '5',
+			        page_num: 1
+			    };
+
 			function success_tabla(result){
 				$scope.data_table=result.respuesta.data;
 			}
 			$scope.get_tabla=function(){
-				Inventario_Services.Modelos().Get().send({},success_tabla).$promise
+				Inventario_Services.Modelos().Get().send($scope.query,success_tabla).$promise
 			}
-			$scope.get_tabla();
+
+			$scope.$watch('query.filter', function(newValue, oldValue) {
+		        if (!oldValue) {
+		            bookmark = $scope.query.page;
+		        }
+
+		        if (newValue !== oldValue) {
+		            $scope.query.page = 1;
+		        }
+
+		        if (!newValue) {
+		            $scope.query.page = bookmark;
+		        }
+		        $scope.get_tabla();
+		    });
 
 			$rootScope.$on("actualizar_tabla", function() {
         		$scope.get_tabla();
@@ -332,13 +404,37 @@ app.controller('ProductosCtrl', function ($scope,$rootScope, $location,$localSto
         	}
 			// -------------------------------------------------------PRODUCTOS------------------------------------------------------------
 			//------------------------------------------------- LLENADO DE TABLA -----------------------------------------
+
+			var bookmark;
+			$scope.query = {
+			        filter: '',
+			        num_registros: 5,
+			        pagina_actual: 1,
+			        limit: '5',
+			        page_num: 1
+			    };
+
 			function success_tabla(result){
 				$scope.data_table=result.respuesta.data;
 			}
 			$scope.get_tabla=function(){
-				Inventario_Services.Productos().Get().send({},success_tabla).$promise
+				Inventario_Services.Productos().Get().send($scope.query,success_tabla).$promise
 			}
-			$scope.get_tabla();
+
+			$scope.$watch('query.filter', function(newValue, oldValue) {
+		        if (!oldValue) {
+		            bookmark = $scope.query.page;
+		        }
+
+		        if (newValue !== oldValue) {
+		            $scope.query.page = 1;
+		        }
+
+		        if (!newValue) {
+		            $scope.query.page = bookmark;
+		        }
+		        $scope.get_tabla();
+		    });
 
 			$rootScope.$on("actualizar_tabla", function() {
         		$scope.get_tabla();
@@ -356,14 +452,26 @@ app.controller('ProductosCtrl', function ($scope,$rootScope, $location,$localSto
         	});
 			}
 
-			function DialogController_nuevo($scope,Inventario_Services,LxNotificationService,Servicios_Generales,FileUploader) {
+			function DialogController_nuevo($localStorage,$scope,Inventario_Services,LxNotificationService,Servicios_Generales,FileUploader) {
 
 				// ------------------------------LLENADO SELECTS ------------------------------
+				function succes_impuestos(result){
+					cm.selectCallback = selectCallback;
+			        cm.ListaImpuestos = result.respuesta.data;
+			        cm.ModelImpuestos = {
+			            selectedPerson: undefined,
+			            selectedPeople: [],
+			            selectedPeopleSections: [],
+			            selectedVegetables: []
+			        };
+				}
+
+				Inventario_Services.Impuestos().Get().send({},succes_impuestos).$promise;
 				var cm = $scope;
 				function succes_categorias(result){
 			        cm.selectCallback = selectCallback;
 			        cm.ListCategorias = result.respuesta.data;
-			        cm.selectModelCiudad = {
+			        cm.ModelCategorias = {
 			            selectedCategoria: undefined
 			        };
 				}
@@ -399,30 +507,53 @@ app.controller('ProductosCtrl', function ($scope,$rootScope, $location,$localSto
 			        
 			    // ------------------------------FIN LLENADO SELECTS ------------------------------
 
+			    //-------------------------------- SUBIR IMAGENES -------------------------------
 			    var uploader = $scope.uploader = new FileUploader({
 			        url: Servicios_Generales.server()+'Add_Productos',
 			        headers: {
-			        Authorization: 'Bearer ' + $localStorage.token,
+			        Authorization: 'Bearer ' + $localStorage.token
 			        },
-			        removeAfterUpload:true
+			        removeAfterUpload:true,
+			        queueLimit: 1
 			    });
 
 			    // FILTERS
-
 			    uploader.filters.push({
 			        name: 'customFilter',
 			        fn: function(item /*{File|FileLikeObject}*/, options) {
 			            return this.queue.length < 10;
 			        }
 			    });
+
 			    uploader.onAfterAddingFile = function(fileItem) {
-			         fileItem.formData=$scope.data_producto;
-			         console.log(fileItem);
+			    $scope.data_producto.impuestos=JSON.stringify($scope.ModelImpuestos.selectedPeople);
+			    $scope.data_producto.categoria=cm.ModelCategorias.selectedCategoria.id;
+			    $scope.data_producto.tipo_gasto=cm.ModelTipoGastos.selectedTipoGastos.id;
+			    $scope.data_producto.modelo=cm.ModelModelos.selectedModelo.id;
+			    $scope.data_producto.marca=cm.ModelMarcas.selectedMarca.id;
+			    $scope.data_producto.token=$localStorage.token;
+	            fileItem.formData.push($scope.data_producto);
 			    };
+
+			     uploader.onSuccessItem = function(response, status) {
+		            if (status.respuesta==true) {
+		            	$rootScope.$emit("actualizar_tabla", {});
+							$mdDialog.hide();
+							LxNotificationService.success('Se ha Creado correctamente');
+		            }else{
+		            	LxNotificationService.success('Ha Ocurrido un error Intentalo Nuevamente');
+		            }
+		        };
 
 				$scope.guardar=function(){
 					$scope.uploader.uploadAll();
 				}
+
+
+		        $scope.isImage=function(item) {
+		            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+		            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+		        }
 
 				$scope.cancel = function() {
 		            $mdDialog.cancel();
@@ -493,13 +624,37 @@ app.controller('ProveedoresCtrl', function ($scope,$rootScope, $location,$localS
 			$scope.selected=[];
 			// -------------------------------------------------------PROVEEDORES------------------------------------------------------------
 			//------------------------------------------------- LLENADO DE TABLA -----------------------------------------
+
+			var bookmark;
+			$scope.query = {
+			        filter: '',
+			        num_registros: 5,
+			        pagina_actual: 1,
+			        limit: '5',
+			        page_num: 1
+			    };
+
 			function success_tabla(result){
 				$scope.data_table=result.respuesta.data;
 			}
 			$scope.get_tabla=function(){
-				Inventario_Services.Proveedores().Get().send({},success_tabla).$promise
+				Inventario_Services.Proveedores().Get().send($scope.query,success_tabla).$promise
 			}
-			$scope.get_tabla();
+
+			$scope.$watch('query.filter', function(newValue, oldValue) {
+		        if (!oldValue) {
+		            bookmark = $scope.query.page;
+		        }
+
+		        if (newValue !== oldValue) {
+		            $scope.query.page = 1;
+		        }
+
+		        if (!newValue) {
+		            $scope.query.page = bookmark;
+		        }
+		        $scope.get_tabla();
+		    });
 
 			$rootScope.$on("actualizar_tabla", function() {
         		$scope.get_tabla();

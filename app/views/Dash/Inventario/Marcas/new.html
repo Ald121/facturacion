@@ -13,11 +13,12 @@
             <div class="md-dialog-content">
                 <md-content class="md-no-momentum">
                     <md-input-container class="md-icon-float md-block">
-                        <md-icon class="md-primary">view_compact</md-icon>
+                        <md-icon class="md-primary" md-svg-icon="images/icons/text.svg"></md-icon>
                         <label>Nombre de la Marca</label>
-                        <input name="nom_tipo_categoria" ng-model="data.nombre" type="text" required>
-                        <div ng-messages="form_add.nom_tipo_categoria.$error" ng-show="form_add.nom_tipo_categoria.$dirty">
-                            <div ng-message="required">Campo Requerido</div>
+                        <input name="nom_tipo_categoria" ng-model="data.nombre" type="text" marcas-validator required>
+                        <div ng-messages="form_add.nom_tipo_categoria.$error">
+                            <div ng-message="required" ng-show="form_add.nom_tipo_categoria.$error.required">Campo Requerido</div>
+                            <div ng-message="campo" ng-show="form_add.nom_tipo_categoria.$error.campo">El Registro Ya Existe</div>
                         </div>
                     </md-input-container>
                     <md-input-container md-no-float class="md-block">

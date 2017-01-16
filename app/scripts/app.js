@@ -46,12 +46,13 @@ var app=angular
         .when('/Dash',    'dashboard')
         .when('/Dash/Inicio',    'dashboard.inicio')
         //Inventario
-        // .when('/Dash/Inventario',    'dashboard.inventario')
             .when('/Dash/Inventario/Categorias',    'dashboard.categoria')
             .when('/Dash/Inventario/Marcas',    'dashboard.marcas')
             .when('/Dash/Inventario/Modelos',    'dashboard.modelos')
             .when('/Dash/Inventario/Productos',    'dashboard.productos')
             .when('/Dash/Inventario/Proveedores',    'dashboard.proveedores')
+        //Facturacion
+        .when('/Dash/Facturacion/Clientes',    'dashboard.clientes')
 
         .segment('dashboard', {
                 templateUrl: 'views/Dash/index.html',
@@ -64,7 +65,7 @@ var app=angular
                             // controller: 'col_usuario_Ctrl'
                     })
 
-         // ----------------------------------------INVENTARIO----------------------------------------
+            // ----------------------------------------INVENTARIO----------------------------------------//
                             .segment('categoria', {
                                 templateUrl: 'views/Dash/Inventario/Categorias/index.html',
                                 controller: 'CategoriasCtrl'
@@ -85,6 +86,21 @@ var app=angular
                                 templateUrl: 'views/Dash/Inventario/Productos/index.html',
                                 controller: 'ProductosCtrl'
                             })
+            // ----------------------------------------FACTURACION----------------------------------------//
+                .segment('clientes', {
+                                templateUrl: 'views/Dash/Facturacion/Clientes/index.html',
+                                controller: 'ClientesCtrl'
+                            })
+                .segment('Vender', {
+                                templateUrl: 'views/Dash/Facturacion/Vender/index.html',
+                                controller: 'VenderCtrl'
+                            })
+
+                .segment('MisFacturas', {
+                                templateUrl: 'views/Dash/Facturacion/MisFacturas/index.html',
+                                controller: 'MisFacturasCtrl'
+                            })
+
             .up()
     });
 
