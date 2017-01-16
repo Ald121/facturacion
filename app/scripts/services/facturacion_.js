@@ -13,47 +13,8 @@ angular.module('facturacionApp')
     // --------------------------------------- Categorias ---------------------------------
     this.Clientes = function(){
 	    		 return {
-				            Existencia: function() {
-				                return $resource(Servicios_Generales.server()+'Existencia_Clientes', {} , {
-								            send: {
-									                method: 'POST', isArray: false,
-									                params: {
-									                    token: $localStorage.token
-									                }
-									            }
-								        });
-				            },
-				            Add: function() {
-				                return $resource(Servicios_Generales.server()+'Add_Clientes', {} , {
-								            send: {
-									                method: 'POST', isArray: false,
-									                params: {
-									                    token: $localStorage.token
-									                }
-									            }
-								        });
-				            }
-				            ,Update: function() {
-				                return $resource(Servicios_Generales.server()+'Update_Clientes', {} , {
-								            send: {
-									                method: 'POST', isArray: false,
-									                params: {
-									                    token: $localStorage.token
-									                }
-									            }
-								        });
-
-				            },Delete: function() {
-				                return $resource(Servicios_Generales.server()+'Delete_Clientes', {} , {
-								            send: {
-									                method: 'POST', isArray: false,
-									                params: {
-									                    token: $localStorage.token
-									                }
-									            }
-								        });
-				            },Get: function() {
-				                return $resource(Servicios_Generales.server()+'Get_Clientes', {} , {
+				            Get_By_Ruc_Ci: function() {
+				                return $resource(Servicios_Generales.server()+'Get_By_Ruc_Ci', {} , {
 								            send: {
 									                method: 'POST', isArray: false,
 									                params: {

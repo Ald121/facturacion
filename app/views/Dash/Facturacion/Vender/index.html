@@ -1,0 +1,160 @@
+<md-button ng-href="#/Inventario/" aria-label="btn_in">Facturación</md-button>/
+<md-button ng-disabled="true" class="md-primary" aria-label="btn_in">Vender</md-button>
+<!-- <md-button class="md-icon-button" ng-click="nuevo_dialog($event)" aria-label="Add">
+<md-icon md-svg-icon="images/icons/add.svg"></md-icon>
+<md-tooltip md-direction="bottom" >
+          Vender
+</md-tooltip>   
+</md-button> -->
+<md-divider></md-divider>
+<md-content layout="row">
+     <md-card flex="50">
+        <md-card-content>
+                <md-input-container class="md-icon-float md-block" layout="column" aria-label="Close">
+                    <md-icon class="md-primary">search</md-icon>
+                    <label>Búsqueda de Productos</label>
+                    <input name="nom_tipo_categoria" ng-model="query.filter" type="text">
+                </md-input-container>
+        <table md-table ng-model="selected" md-progress="promise" fle>
+            <thead md-head md-order="query.order" md-on-reorder="data_inv_tc_get">
+                <tr md-row>
+                    <th md-column md-order-by="nameToLower"><span>NOMBRE</span></th>
+                    <th md-column md-numeric>DESCRIPCIÓN</th>
+                    <th md-column md-numeric>STOCK</th>
+                    <th md-column md-numeric>PRECIO UNITARIO</th>
+                    <th md-column md-numeric>AÑADIR</th>
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row md-select="dessert" md-select-id="name" md-auto-select ng-repeat="dessert in data_table">
+                    <td md-cell>{{dessert.nombre_corto}}</td>
+                    <td md-cell>{{dessert.descripcion_corta}}</td>
+                    <td md-cell>{{dessert.cantidad}}</td>
+                    <td md-cell>{{dessert.precio}}</td>
+                    <td md-cell>
+                        <md-button class="md-icon-button" ng-click="add_prod_fac(dessert)" type="button">
+                            <md-tooltip md-direction="top">
+                                Añadir a la factura
+                            </md-tooltip>
+                            <md-icon class="md-primary" md-svg-icon="images/icons/add-factura.svg">mode_edit</md-icon>
+                        </md-button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.pagina_actual" md-total="{{total}}" md-on-paginate="data_inv_tc_get" md-page-select></md-table-pagination>
+        </md-card-content>
+      </md-card>
+
+      <md-card flex="50">
+      <md-button class="md-secondary" disabled><strong>CLIENTE</strong></md-button>
+        <md-divider></md-divider>
+        <md-card-content>
+   <form name="form_add" ng-submit="guardar()">
+        <div layout="row">
+                    <md-input-container class="md-icon-float md-block" flex>
+                        <label>CI/RUC</label>
+                        <input name="ruc_ci" ng-model="data.ruc_ci" type="text" ng-minlength="10" limit-to="13" ng-keyup="buscar_cliente()"numeros-only required>
+                        <div ng-messages="form_add.ruc_ci.$error">
+                            <div ng-message="required" ng-show="form_add.ruc_ci.$error.required">Campo Requerido</div>
+                            <div ng-message="campo" ng-show="form_add.ruc_ci.$error.campo">El Registro Ya Existe</div>
+                            <div ng-message="minlength" ng-show="form_add.ruc_ci.$error.minlength">Minimo 10 caracteres</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-icon-float md-block" flex>
+                        <label>Nombres</label>
+                        <input name="nombres" ng-model="data.nombres" type="text" letras-only  letras-only required disabled>
+                        <div ng-messages="form_add.nombres.$error">
+                            <div ng-message="required" ng-show="form_add.nombres.$error.required">Campo Requerido</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-icon-float md-block" flex>
+                        <label>Apellidos</label>
+                        <input name="apellidos" ng-model="data.apellidos" type="text" letras-only  required disabled>
+                        <div ng-messages="form_add.apellidos.$error">
+                            <div ng-message="required" ng-show="form_add.apellidos.$error.required">Campo Requerido</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-icon-float md-block" flex>
+                        <label>Teléfono/Celular</label>
+                        <input name="telefono" ng-model="data.telefono" type="text" numeros-only limit-to="10" required disabled>
+                        <div ng-messages="form_add.telefono.$error">
+                            <div ng-message="required" ng-show="form_add.telefono.$error.required">Campo Requerido</div>
+                        </div>
+                    </md-input-container>
+                    </div>
+                    <div layout="row">
+                    <md-input-container class="md-icon-float md-block" flex>
+                        <label>Correo</label>
+                        <input name="correo" ng-model="data.correo" type="email"  required disabled>
+                        <div ng-messages="form_add.correo.$error">
+                            <div ng-message="required" ng-show="form_add.correo.$error.email">Email Incorrecto</div>
+                            <div ng-message="required" ng-show="form_add.correo.$error.required">Campo Requerido</div>
+                        </div>
+                    </md-input-container>
+                    <div class="md-icon-float md-block" style="margin-top: -15px;  padding-left: 10px;    padding-right: 10px;" flex>
+                        <lx-select ng-model="ModelLocalizacion.selectedLocalizacion" lx-fixed-label="true" lx-allow-clear="true" lx-choices="ListLocalizacion" lx-display-filter="true" lx-fixed-label="true" lx-label="Ciudad" required disabled>
+                            <lx-select-selected>
+                                {{ $selected.nombre }}
+                            </lx-select-selected>
+                            <lx-select-choices>
+                                {{ $choice.nombre }}
+                            </lx-select-choices>
+                        </lx-select>
+                        <div ng-show="ModelLocalizacion.selectedLocalizacion==undefinied" style="color: rgba(255, 0, 0, 0.64);  font-size: 12px;">Campo Requerido *</div>
+                    </div>
+                    <md-input-container class="md-icon-float md-block" flex>
+                        <label>Dirección</label>
+                        <input name="direccion" ng-model="data.direccion" type="text" required disabled>
+                        <div ng-messages="form_add.direccion.$error">
+                            <div ng-message="required" ng-show="form_add.direccion.$error.required">Campo Requerido</div>
+                        </div>
+                    </md-input-container>
+                    </div>
+                    <div layout="row">
+                    <md-button class="md-secondary" flex disabled><strong>DETALLES DE LA FACTURA</strong></md-button>
+                     </div>
+                     <md-divider></md-divider>
+</form>
+        <table md-table ng-model="selected" md-progress="promise" flex>
+            <thead md-head md-order="query.order" md-on-reorder="data_inv_tc_get">
+                <tr md-row>
+                    <th md-column md-order-by="nameToLower"><span>CANTIDAD</span></th>
+                    <th md-column md-numeric>PRODUCTO</th>
+                    <th md-column md-numeric>PVP</th>
+                    <th md-column md-numeric>TOTAL</th>
+                    <th md-column md-numeric>QUITAR</th>
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row md-select="dessert" md-select-id="name" md-auto-select ng-repeat="dessert in detalles_fac">
+                    <td md-cell>{{dessert.cantidad_fac}}</td>
+                    <td md-cell>{{dessert.nommbre_corto}}</td>
+                    <td md-cell>{{dessert.precio}}</td>
+                    <td md-cell>{{dessert.cantidad_fac*dessert.precio}}</td>
+                    <td md-cell>
+                        <md-button class="md-icon-button" ng-click="dialog_update(dessert)" type="button">
+                            <md-tooltip md-direction="top">
+                                Modificar
+                            </md-tooltip>
+                            <md-icon class="md-primary">mode_edit</md-icon>
+                        </md-button>
+                        <md-button class="md-icon-button" ng-click="dialog_eliminar(dessert)" type="button">
+                            <md-tooltip md-direction="top">
+                                Eliminar
+                            </md-tooltip>
+                            <md-icon class="md-primary">delete</md-icon>
+                        </md-button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.pagina_actual" md-total="{{total}}" md-on-paginate="data_inv_tc_get" md-page-select></md-table-pagination>
+        </md-card-content>
+         <md-card-actions layout="row" layout-align="start">
+          <md-button class="md-raised " flex>NO FACTURAR</md-button>
+          <md-button class="md-raised md-primary" flex>FACTURAR</md-button>
+        </md-card-actions>
+      </md-card>
+
+</md-content>

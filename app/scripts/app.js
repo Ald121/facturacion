@@ -53,6 +53,7 @@ var app=angular
             .when('/Dash/Inventario/Proveedores',    'dashboard.proveedores')
         //Facturacion
         .when('/Dash/Facturacion/Clientes',    'dashboard.clientes')
+        .when('/Dash/Facturacion/Vender',    'dashboard.vender')
 
         .segment('dashboard', {
                 templateUrl: 'views/Dash/index.html',
@@ -91,7 +92,7 @@ var app=angular
                                 templateUrl: 'views/Dash/Facturacion/Clientes/index.html',
                                 controller: 'ClientesCtrl'
                             })
-                .segment('Vender', {
+                .segment('vender', {
                                 templateUrl: 'views/Dash/Facturacion/Vender/index.html',
                                 controller: 'VenderCtrl'
                             })
