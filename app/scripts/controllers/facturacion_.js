@@ -174,9 +174,35 @@ var app =angular.module('facturacionApp');
 
 	  	});
 
-app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorage,$mdDialog,Facturacion_Services,Servicios_Generales,Inventario_Services) {
-			$scope.selected=[];
+app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorage,$mdDialog,Facturacion_Services,Servicios_Generales,Inventario_Services,Configuracion_Services) {
 			// -------------------------------------------------------VENDER------------------------------------------------------------//
+			
+			$scope.selected=[];
+			$scope.decimales=2;
+			
+
+			function success_impuestos(result){	
+				$scope.totales =[];
+
+				for (var i = 0; i < result.respuesta.data.length; i++) {
+					$scope.totales.push({'label':'SUBTOTAL '+result.respuesta.data[i].porcentaje,codigo:result.respuesta.data[i].id,valor:0});
+				}
+
+				for (var i = 0; i < result.respuesta.data.length; i++) {
+					$scope.totales.push({'label':'IVA '+result.respuesta.data[i].porcentaje+'%',codigo:result.respuesta.data[i].id,valor:0});
+				}
+				
+				$scope.totales.push({'label':'TOTAL ',codigo:'total',valor:0});
+
+				$localStorage.totales =result.respuesta.data;
+			}
+
+			$scope.get_impuestos=function(){
+				Configuracion_Services.Impuestos().Get().send({},success_impuestos).$promise;
+			}
+			
+			$scope.get_impuestos();
+
 			//---------------------------------------------------------- LLENAR DATOS DEL CLIENTE ---------------------------------------//
 			var cm = $scope;
 			function success_localizacion(result){
@@ -216,7 +242,7 @@ app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorag
 
 			$scope.buscar_cliente=function(){
 				if ($scope.data&&$scope.data.ruc_ci) {
-									if ($scope.data.ruc_ci.length==10||$scope.data.ruc_ci.length==13) {
+					if ($scope.data.ruc_ci.length==10||$scope.data.ruc_ci.length==13) {
 							Facturacion_Services.Clientes().Get_By_Ruc_Ci().send({ruc_ci:$scope.data.ruc_ci},success_buscar_cliente).$promise;
 						}
 				}else{
@@ -272,18 +298,56 @@ app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorag
 
     			if ($scope.detalles_fac.indexOf(prod)==-1) {
     				prod.cantidad_fac=1;
-    				prod.precio=parseFloat(prod.precio.replace('$','')).toFixed(2);
+    				prod.total_fac=parseFloat(prod.precio.replace('$','')).toFixed($scope.decimales);
     				$scope.detalles_fac.push(prod);
     			}else{
     				var index=$scope.detalles_fac.indexOf(prod);
     				if ($scope.detalles_fac[index].cantidad_fac<$scope.detalles_fac[index].cantidad) {
     					$scope.detalles_fac[index].cantidad_fac=$scope.detalles_fac[index].cantidad_fac+1;
+    					$scope.detalles_fac[index].total_fac=parseFloat(parseFloat($scope.detalles_fac[index].precio.replace('$','')).toFixed($scope.decimales)*$scope.detalles_fac[index].cantidad_fac).toFixed(2);
     				}
     				
     			}
+
+    			$scope.calc_totales($scope.detalles_fac);
     		}
 
+    		$scope.calc_totales=function(detalles_fac){
+				$scope.subtotal_12=0.00;
+				$scope.subtotal_14=0.00;
+				$scope.subtotal_0=0.00;
+				$scope.subtotal_No_Objeto=0.00;
+				$scope.subtotal_Excento=0.00;
+				$scope.Total_Sin_Impuesto=0.00;
+				$scope.Total_Con_Impuesto=0.00;
+    			for (var i = 0; i < detalles_fac.length; i++) {
+    				switch(detalles_fac[i].impuesto) {
+    					case 0:
+    						$scope.subtotal_0=parseFloat(parseFloat($scope.subtotal_0)+parseFloat(detalles_fac[i].total_fac)).toFixed($scope.decimales);
+    						break;
+    					case 2:
+    					$scope.subtotal_12=parseFloat(parseFloat($scope.subtotal_12)+parseFloat(detalles_fac[i].total_fac)).toFixed($scope.decimales);
+    						break;
+    					case 3:
+    					$scope.subtotal_14=parseFloat(parseFloat($scope.subtotal_14)+parseFloat(detalles_fac[i].total_fac)).toFixed($scope.decimales);
+    						break;
+    						case 6:
+    					$scope.subtotal_No_Objeto=parseFloat(parseFloat($scope.subtotal_No_Objeto)+parseFloat(detalles_fac[i].total_fac)).toFixed($scope.decimales);
+    						break;
+    						case 7:
+    					$scope.subtotal_Excento=parseFloat(parseFloat($scope.subtotal_Excento)+parseFloat(detalles_fac[i].total_fac)).toFixed($scope.decimales);
+    						break;
+    				}
 
+    				$scope.Total_Sin_Impuesto=parseFloat(parseFloat($scope.Total_Sin_Impuesto)+parseFloat(detalles_fac[i].total_fac)).toFixed($scope.decimales);
+    			}
+
+    			console.log();
+
+    			 // $scope.totales[0].valor=$scope.subtotal;
+    			 // $scope.totales[0].valor=$scope.subtotal;
+    			 // $scope.totales[3].valor=($scope.subtotal*12)/100;
+    		}
 
 			//----------------------------------------------------- NUEVO CLIENTE-----------------------------------------
 
