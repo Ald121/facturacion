@@ -128,12 +128,29 @@
             </thead>
             <tbody md-body>
                 <tr md-row md-select="dessert" md-select-id="name" md-auto-select ng-repeat="dessert in detalles_fac">
-                    <td md-cell>{{dessert.cantidad_fac}}</td>
+                    <td md-cell>
+                    <md-input-container>
+                        <label>Cantidad</label>
+                        <input value="{{dessert.cantidad_fac}}" type="text" style="width: 50px;">
+                        <md-button class="md-icon-button" ng-click="add_prod_fac(dessert)" type="button">
+                            <md-tooltip md-direction="top">
+                                Añadir
+                            </md-tooltip>
+                            <md-icon class="md-primary" md-svg-icon="images/icons/menos.svg"></md-icon>
+                        </md-button>
+                        <md-button class="md-icon-button" ng-click="remove_prod_fac(dessert)" type="button">
+                            <md-tooltip md-direction="top">
+                                Reducir
+                            </md-tooltip>
+                            <md-icon class="md-primary" md-svg-icon="images/icons/mas.svg"></md-icon>
+                        </md-button>
+                        </md-input-container>
+                        </td>
                     <td md-cell>{{dessert.nombre_corto}}</td>
                     <td md-cell>{{dessert.precio}}</td>
                     <td md-cell>{{dessert.total_fac}}</td>
                     <td md-cell>
-                        <md-button class="md-icon-button" ng-click="dialog_eliminar(dessert)" type="button">
+                        <md-button class="md-icon-button" ng-click="delete_prod_fac(dessert)" type="button">
                             <md-tooltip md-direction="top">
                                 Eliminar
                             </md-tooltip>

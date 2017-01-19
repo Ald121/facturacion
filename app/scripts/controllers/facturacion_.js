@@ -185,16 +185,16 @@ app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorag
 				$scope.totales =[];
 
 				for (var i = 0; i < result.respuesta.data.length; i++) {
-					$scope.totales.push({'label':'SUBTOTAL '+result.respuesta.data[i].porcentaje,codigo:result.respuesta.data[i].id,valor:0});
+					$scope.totales.push({'label':'SUBTOTAL '+result.respuesta.data[i].porcentaje,codigo:result.respuesta.data[i].id,porcentaje:result.respuesta.data[i].porcentaje,valor:0});
 				}
 
 				for (var i = 0; i < result.respuesta.data.length; i++) {
-					$scope.totales.push({'label':'IVA '+result.respuesta.data[i].porcentaje+'%',codigo:result.respuesta.data[i].id,valor:0});
+					$scope.totales.push({'label':'IVA '+result.respuesta.data[i].porcentaje+'%',codigo:'iva'+result.respuesta.data[i].id,valor:0});
 				}
 				
 				$scope.totales.push({'label':'TOTAL ',codigo:'total',valor:0});
 
-				$localStorage.totales =result.respuesta.data;
+				$localStorage.totales =$scope.totales;
 			}
 
 			$scope.get_impuestos=function(){
@@ -202,7 +202,6 @@ app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorag
 			}
 			
 			$scope.get_impuestos();
-
 			//---------------------------------------------------------- LLENAR DATOS DEL CLIENTE ---------------------------------------//
 			var cm = $scope;
 			function success_localizacion(result){
@@ -293,7 +292,7 @@ app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorag
     		});
 			//----------------------------------------------------- DETALLES DE FACTURA -----------------------------------------
     		$scope.detalles_fac=[];
-
+    		$scope.totales=$localStorage.totales;
     		$scope.add_prod_fac=function(prod){
 
     			if ($scope.detalles_fac.indexOf(prod)==-1) {
@@ -311,6 +310,24 @@ app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorag
 
     			$scope.calc_totales($scope.detalles_fac);
     		}
+
+    		$scope.remove_prod_fac=function(prod){
+    				var index=$scope.detalles_fac.indexOf(prod);
+    				if ($scope.detalles_fac[index].cantidad_fac>0) {
+    					$scope.detalles_fac[index].cantidad_fac=$scope.detalles_fac[index].cantidad_fac-1;
+    					$scope.detalles_fac[index].total_fac=parseFloat(parseFloat($scope.detalles_fac[index].precio.replace('$','')).toFixed($scope.decimales)*$scope.detalles_fac[index].cantidad_fac).toFixed(2);
+    				}
+
+    			$scope.calc_totales($scope.detalles_fac);
+    		}
+
+    		$scope.delete_prod_fac=function(prod){
+				var index=$scope.detalles_fac.indexOf(prod);
+				$scope.detalles_fac.splice(index,1);
+    			$scope.calc_totales($scope.detalles_fac);
+    		}
+
+    		
 
     		$scope.calc_totales=function(detalles_fac){
 				$scope.subtotal_12=0.00;
@@ -342,8 +359,40 @@ app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorag
     				$scope.Total_Sin_Impuesto=parseFloat(parseFloat($scope.Total_Sin_Impuesto)+parseFloat(detalles_fac[i].total_fac)).toFixed($scope.decimales);
     			}
 
-    			console.log();
 
+    			for (var i = 0; i < $scope.totales.length; i++) {
+    				switch($scope.totales[i].codigo) {
+    					case 0:
+    					$scope.totales[i].valor=$scope.subtotal_0;
+    						break;
+    					case 2:
+    					$scope.totales[i].valor=$scope.subtotal_12;
+    						break;
+    					case 3:
+    					$scope.totales[i].valor=$scope.subtotal_14;
+    						break;
+    						case 6:
+    					$scope.totales[i].valor=$scope.subtotal_No_Objeto;
+    						break;
+    						case 7:
+    					$scope.totales[i].valor=$scope.subtotal_Excento;
+    						break;
+    						case 'iva0':
+    						for (var j = 0; j < $scope.totales.length; j++) {
+    							if ($scope.totales[j].codigo==0) {
+    								$scope.totales[i].valor=parseFloat(($scope.totales[j].valor*$scope.totales[j].porcentaje)/100).toFixed($scope.decimales);
+    							}
+    						}
+    						break;
+    						case 'iva3':
+    						for (var j = 0; j < $scope.totales.length; j++) {
+    							if ($scope.totales[j].codigo==3) {
+    								$scope.totales[i].valor=parseFloat(($scope.totales[j].valor*$scope.totales[j].porcentaje)/100).toFixed($scope.decimales);
+    							}
+    						}
+    						break;
+    				}
+    			}
     			 // $scope.totales[0].valor=$scope.subtotal;
     			 // $scope.totales[0].valor=$scope.subtotal;
     			 // $scope.totales[3].valor=($scope.subtotal*12)/100;
