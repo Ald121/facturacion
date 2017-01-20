@@ -51,10 +51,21 @@
         <md-divider></md-divider>
         <md-card-content>
    <form name="form_add" ng-submit="guardar()">
+                   <div layout="row">
+                            <md-switch ng-model="cliente" ng-change="cambiar_tipo_cliente()" ng-true-value="'SI'" ng-false-value="'NO'" aria-label="Switch Cliente" flex>
+                            CLIENTE : {{cliente}}
+                            </md-switch>
+                            <md-button class="md-icon-button" ng-click="nuevo_dialog($event)" aria-label="Add">
+                                <md-icon md-svg-icon="images/icons/add.svg"></md-icon>
+                                <md-tooltip md-direction="bottom" >
+                                          Añadir Cliente
+                                </md-tooltip>   
+                            </md-button>
+                    </div>
         <div layout="row">
                     <md-input-container class="md-icon-float md-block" flex>
                         <label>CI/RUC</label>
-                        <input name="ruc_ci" ng-model="data.ruc_ci" type="text" ng-minlength="10" limit-to="13" ng-keyup="buscar_cliente()"numeros-only required>
+                        <input name="ruc_ci" ng-model="data.ruc_ci" type="text" ng-disabled="cliente=='NO'" ng-minlength="10" limit-to="13" ng-keyup="buscar_cliente()"numeros-only required>
                         <div ng-messages="form_add.ruc_ci.$error">
                             <div ng-message="required" ng-show="form_add.ruc_ci.$error.required">Campo Requerido</div>
                             <div ng-message="campo" ng-show="form_add.ruc_ci.$error.campo">El Registro Ya Existe</div>
@@ -131,18 +142,18 @@
                     <td md-cell>
                     <md-input-container>
                         <label>Cantidad</label>
-                        <input value="{{dessert.cantidad_fac}}" type="text" style="width: 50px;">
-                        <md-button class="md-icon-button" ng-click="add_prod_fac(dessert)" type="button">
-                            <md-tooltip md-direction="top">
-                                Añadir
-                            </md-tooltip>
-                            <md-icon class="md-primary" md-svg-icon="images/icons/menos.svg"></md-icon>
-                        </md-button>
+                        <input value="{{dessert.cantidad_fac}}" ng-model="dessert.cantidad_fac" ng-keyup="add_prod_fac_from_input(dessert)" type="text" style="width: 50px;">
                         <md-button class="md-icon-button" ng-click="remove_prod_fac(dessert)" type="button">
                             <md-tooltip md-direction="top">
                                 Reducir
                             </md-tooltip>
                             <md-icon class="md-primary" md-svg-icon="images/icons/mas.svg"></md-icon>
+                        </md-button>
+                        <md-button class="md-icon-button" ng-click="add_prod_fac(dessert)" type="button">
+                            <md-tooltip md-direction="top">
+                                Añadir
+                            </md-tooltip>
+                            <md-icon class="md-primary" md-svg-icon="images/icons/menos.svg"></md-icon>
                         </md-button>
                         </md-input-container>
                         </td>
@@ -176,8 +187,20 @@
  <!--    <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.pagina_actual" md-total="{{total}}" md-on-paginate="data_inv_tc_get" md-page-select></md-table-pagination> -->
         </md-card-content>
          <md-card-actions layout="row" layout-align="start">
-          <md-button class="md-raised " flex>NO FACTURAR</md-button>
-          <md-button class="md-raised md-primary" flex>FACTURAR</md-button>
+          <md-button class="md-raised" ng-click="guardar_factura(false)" flex>
+            <md-tooltip md-direction="top">
+                No Facturar
+            </md-tooltip>
+            <md-icon class="md-primary" md-svg-icon="images/icons/facturar-archivar.svg"></md-icon>
+          NO FACTURAR
+          </md-button>
+          <md-button class="md-raised md-primary" ng-click="guardar_factura(true)" flex>
+            <md-tooltip md-direction="top">
+                Facturar
+            </md-tooltip>
+            <md-icon class="md-primary" md-svg-icon="images/icons/facturar-ok.svg"></md-icon>
+          FACTURAR
+          </md-button>
         </md-card-actions>
       </md-card>
 

@@ -26,18 +26,21 @@ angular.module('facturacionApp')
 			
 		$scope.salir=function(){
 
-			Login_Services.Log().Out().salir().$promise.then(function(data){
-				if (data.respuesta==true) {
-					LxNotificationService.success('Vuelve Pronto :)');
-					$localStorage.$reset();
-					$location.path('/');
-				}else{
-					 $location.path('/');
-				}
-			},function(error){
-				 LxNotificationService.error('Ha ocurrido un error :(');
-				 $location.path('/');
-			});
+			$localStorage.$reset();
+			$location.path('/');
+			
+			// Login_Services.Log().Out().salir().$promise.then(function(data){
+			// 	if (data.respuesta==true) {
+			// 		LxNotificationService.success('Vuelve Pronto :)');
+			// 		$localStorage.$reset();
+			// 		$location.path('/');
+			// 	}else{
+			// 		 $location.path('/');
+			// 	}
+			// },function(error){
+			// 	 LxNotificationService.error('Ha ocurrido un error :(');
+			// 	 $location.path('/');
+			// });
 		}
 
 	  	});
