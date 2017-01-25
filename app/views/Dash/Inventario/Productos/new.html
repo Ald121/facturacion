@@ -18,7 +18,7 @@
                                 <md-icon md-svg-icon="images/icons/info.svg"></md-icon> Información General</md-tab-label>
                             <md-tab-body>
                             <md-content layout="row">
-                                    <md-input-container class="md-icon-float md-block" flex="40">
+                                    <md-input-container class="md-icon-float md-block" flex="30">
                                         <md-icon class="md-primary" md-svg-icon="images/icons/text.svg"></md-icon>
                                         <label>Nombre Producto</label>
                                         <input name="nom_producto" ng-model="data_producto.nombre_corto" type="text" productos-validator required>
@@ -56,11 +56,28 @@
                                             <div ng-message="pattern" ng-show="form.nom_cantidad.$error.pattern">Solo numeros enteros</div>
                                         </div>
                                     </md-input-container>
-                                    <div flex="5" hide-xs hide-sm>
-                                        <!-- Spacer //-->
-                                    </div>
+                                    <md-input-container class="md-icon-float md-block" flex>
+                                    <md-icon class="md-primary" md-svg-icon="images/icons/text.svg"></md-icon>
+                                        <label>Stock Mínimo</label>
+                                        <input name="stock_minimo" ng-model="data_producto.stock_minimo" type="number" ng-pattern="/^([0-9])*$/" required>
+                                        <div ng-messages="form.stock_minimo.$error">
+                                            <div ng-message="required" ng-show="form.stock_minimo.$error.required">Campo Requerido</div>
+                                            <div ng-message="pattern" ng-show="form.stock_minimo.$error.pattern">Solo numeros enteros</div>
+                                        </div>
+                                    </md-input-container>
                                 </md-content>
                                 <md-content layout-padding layout="row">
+                                 <div class="md-icon-float md-block" flex>
+                                        <lx-select ng-model="ModelUnidades.selectedUnidad" lx-fixed-label="true" lx-allow-clear="true" lx-choices="ListUnidades" lx-display-filter="true" lx-fixed-label="true" lx-label="Unidad" required>
+                                            <lx-select-selected>
+                                                {{ $selected.nombre }}
+                                            </lx-select-selected>
+                                            <lx-select-choices>
+                                                {{ $choice.nombre }}
+                                            </lx-select-choices>
+                                        </lx-select>
+                                        <div ng-show="ModelUnidades.selectedUnidad==undefinied" style="color: rgba(255, 0, 0, 0.64);  font-size: 12px;">Campo Requerido *</div>
+                                    </div>
                                     <div class="md-icon-float md-block" flex>
                                         <lx-select ng-model="ModelCategorias.selectedCategoria" lx-fixed-label="true" lx-allow-clear="true" lx-choices="ListCategorias" lx-display-filter="true" lx-fixed-label="true" lx-label="Categoría" required>
                                             <lx-select-selected>
@@ -84,7 +101,7 @@
                                         <div ng-show="ModelTipoGastos.selectedTipoGastos==undefinied" style="color: rgba(255, 0, 0, 0.64);  font-size: 12px;">Campo Requerido *</div>
                                     </div>
                                     <div class="md-icon-float md-block" flex>
-                                        <lx-select ng-model="ModelModelos.selectedModelo" lx-allow-clear="true" lx-choices="LIstaModelos" lx-display-filter="true" lx-fixed-label="true" lx-label="Modelo" lx-name="nom_modelo" required>
+                                        <lx-select ng-model="ModelModelos.selectedModelo" lx-allow-clear="true" lx-choices="LIstaModelos" lx-display-filter="true" lx-fixed-label="true" lx-label="Modelo" lx-name="nom_modelo" >
                                             <lx-select-selected>
                                                 {{ $selected.nombre }}
                                             </lx-select-selected>
@@ -92,7 +109,7 @@
                                                 {{ $choice.nombre }}
                                             </lx-select-choices>
                                         </lx-select>
-                                        <div ng-show="ModelModelos.selectedModelo==undefinied" style="color: rgba(255, 0, 0, 0.64);  font-size: 12px;">Campo Requerido *</div>
+                                        <!-- <div ng-show="ModelModelos.selectedModelo==undefinied" style="color: rgba(255, 0, 0, 0.64);  font-size: 12px;">Campo Requerido *</div> -->
                                     </div>
                                     <div class="md-icon-float md-block" flex>
                                         <lx-select ng-model="ModelMarcas.selectedMarca" lx-allow-clear="true" lx-choices="ListaMarcas" lx-display-filter="true" lx-fixed-label="true" lx-label="Marca">
@@ -148,13 +165,11 @@
                             <md-content layout="row">
                                 <md-input-container class="md-icon-float md-block" flex>
                                 <md-icon class="md-primary" md-svg-icon="images/icons/text.svg"></md-icon>
-                                    
                                     <label>Descripción Proveedor</label>
                                     <input name="descripcion_proveedor" ng-model="data_producto.descripcion_proveedor" type="text">
                                 </md-input-container>
                                 <md-input-container class="md-icon-float md-block" flex>
                                 <md-icon class="md-primary" md-svg-icon="images/icons/text.svg"></md-icon>
-                                    
                                     <label>Descripción Proformas</label>
                                     <input name="descripcion_proformas" ng-model="data_producto.descripcion_proformas" type="text">
                                 </md-input-container>
@@ -170,9 +185,9 @@
             <md-button type="reset">Limpiar</md-button>
             <md-button class="md-raised md-primary" type="submit" ng-disabled="form.$invalid
             ||ModelMarcas.selectedMarca==undefinied
-            ||ModelModelos.selectedModelo==undefinied
             ||ModelCategorias.selectedCategoria==undefinied
-            ||ModelTipoGastos.selectedTipoGastos==undefinied">Guardar</md-button>
+            ||ModelTipoGastos.selectedTipoGastos==undefinied
+            ||ModelUnidades.selectedUnidad==undefinied">Guardar</md-button>
         </md-dialog-actions>
     </form>
 </md-dialog>

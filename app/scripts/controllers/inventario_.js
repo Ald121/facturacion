@@ -504,6 +504,16 @@ app.controller('ProductosCtrl', function ($scope,$rootScope, $location,$localSto
 			        };
 				}
 				Inventario_Services.Marcas().Get().send({},succes_Marcas).$promise;
+
+				function succes_Unidades(result){
+			        cm.selectCallback = selectCallback;
+			        cm.ListUnidades = result.respuesta.data;
+			        cm.ModelUnidades = {
+			            selectedUnidad: undefined
+			        };
+			        console.log(cm.ListUnidades);
+				}
+				Inventario_Services.Unidades().Get().send({},succes_Unidades).$promise;
 			        
 			    // ------------------------------FIN LLENADO SELECTS ------------------------------
 
@@ -526,10 +536,13 @@ app.controller('ProductosCtrl', function ($scope,$rootScope, $location,$localSto
 			    });
 
 			    uploader.onAfterAddingFile = function(fileItem) {
+
+			    var modelo =(cm.ModelModelos.selectedModelo!=undefined)? cm.ModelModelos.selectedModelo.id:0;
+
 			    $scope.data_producto.impuestos=JSON.stringify($scope.ModelImpuestos.selectedPeople);
 			    $scope.data_producto.categoria=cm.ModelCategorias.selectedCategoria.id;
 			    $scope.data_producto.tipo_gasto=cm.ModelTipoGastos.selectedTipoGastos.id;
-			    $scope.data_producto.modelo=cm.ModelModelos.selectedModelo.id;
+			    $scope.data_producto.modelo=modelo;
 			    $scope.data_producto.marca=cm.ModelMarcas.selectedMarca.id;
 			    $scope.data_producto.token=$localStorage.token;
 	            fileItem.formData.push($scope.data_producto);
@@ -546,6 +559,22 @@ app.controller('ProductosCtrl', function ($scope,$rootScope, $location,$localSto
 		        };
 
 				$scope.guardar=function(){
+
+				var modelo =(cm.ModelModelos.selectedModelo!=undefined)? cm.ModelModelos.selectedModelo.id:0;
+
+			    $scope.data_producto.impuestos=JSON.stringify($scope.ModelImpuestos.selectedPeople);
+			    $scope.data_producto.categoria=cm.ModelCategorias.selectedCategoria.id;
+			    $scope.data_producto.tipo_gasto=cm.ModelTipoGastos.selectedTipoGastos.id;
+			    $scope.data_producto.unidad=cm.ModelUnidades.selectedUnidad.id;
+			    $scope.data_producto.modelo=modelo;
+			    $scope.data_producto.marca=cm.ModelMarcas.selectedMarca.id;
+			    $scope.data_producto.token=$localStorage.token;
+
+
+					for (var i = 0; i < $scope.uploader.queue.length; i++) {
+						$scope.uploader.queue[i].formData[0]=$scope.data_producto
+						console.log($scope.uploader.queue[i]);
+					}
 					$scope.uploader.uploadAll();
 				}
 

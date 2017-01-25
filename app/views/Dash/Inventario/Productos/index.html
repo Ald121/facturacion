@@ -15,7 +15,7 @@
             </div>
             <div flex="90">
                 <md-input-container class="md-icon-float md-block" layout="column" aria-label="Close">
-                  <md-icon class="md-primary">search</md-icon>
+                  <md-icon md-svg-icon="images/icons/buscar.svg"></md-icon>
                   <label>Búsqueda</label>
                   <input name="texto_busqueda" ng-model="query.filter" type="text" >
               </md-input-container>
@@ -28,6 +28,7 @@
           <th md-column>NOMBRE</th> 
           <th md-column>DESCRIPCIÓN</th>
           <th md-column>PRECIO</th>
+          <th md-column>UNIDAD</th>
           <th md-column>COSTO</th>
             <th md-column>CATEGORIA</th> 
             <th md-column>MARCA</th> 
@@ -42,6 +43,7 @@
             <td md-cell>{{dessert.nombre_corto}}</td>
             <td md-cell>{{dessert.descripcion_corta}}</td>
             <td md-cell>{{dessert.precio}}</td>
+            <td md-cell style="font-size: 9px;"><strong>{{dessert.unidad}}</strong></td>
             <td md-cell>{{dessert.costo}}</td>
             <td md-cell>{{dessert.categoria}}</td>
             <td md-cell>{{dessert.marca}}</td>
@@ -52,13 +54,13 @@
                     <md-tooltip md-direction="top">
                         Modificar
                     </md-tooltip>
-                    <md-icon class="md-primary">mode_edit</md-icon>
+                    <md-icon md-svg-icon="images/icons/editar.svg" aria-label="Editar Icon"></md-icon>
                 </md-button>
                 <md-button class="md-icon-button" ng-click="dialog_eliminar(dessert)" type="button">
                     <md-tooltip md-direction="top">
                         Eliminar
                     </md-tooltip>
-                    <md-icon class="md-primary">delete</md-icon>
+                    <md-icon md-svg-icon="images/icons/delete.svg"></md-icon>
                 </md-button>
             </td>
           </tr>

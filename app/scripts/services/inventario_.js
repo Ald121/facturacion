@@ -329,4 +329,23 @@ angular.module('facturacionApp')
         				}
 		        
 	    	}
+
+		// --------------------------------------- UNIDADES ---------------------------------
+    this.Unidades = function(){
+	    		 return {
+				         Get: function() {
+				                return $resource(Servicios_Generales.server()+'Get_Unidades', {} , {
+								            send: {
+									                method: 'POST', isArray: false,
+									                params: {
+									                    token: $localStorage.token
+									                }
+									            }
+								});
+
+				            }
+        				}
+		        
+	    	}
+
   });

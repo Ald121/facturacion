@@ -174,7 +174,7 @@ var app =angular.module('facturacionApp');
 
 	  	});
 
-app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorage,$mdDialog,Facturacion_Services,Servicios_Generales,Inventario_Services,Configuracion_Services) {
+app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorage,$mdDialog,Facturacion_Services,Servicios_Generales,Inventario_Services,Configuracion_Services,LxNotificationService,$window) {
 			// -------------------------------------------------------VENDER------------------------------------------------------------//
 			
 			$scope.selected=[];
@@ -291,7 +291,7 @@ app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorag
 
 			$rootScope.$on("actualizar_tabla", function() {
         		$scope.get_tabla();
-    		});
+    		});	
 
     		$scope.cambiar_tipo_cliente=function(){
     			if ($scope.cliente=='SI') {
@@ -306,7 +306,7 @@ app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorag
     					telefono:"999999",
     					correo:"",
     					direccion:"",
-    				};
+    				}
     			}
     		}
 
@@ -441,22 +441,70 @@ app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorag
     						break;
     				}
     			}
-    			 // $scope.totales[0].valor=$scope.subtotal;
-    			 // $scope.totales[0].valor=$scope.subtotal;
-    			 // $scope.totales[3].valor=($scope.subtotal*12)/100;
+
     		}
     		//----------------------------------------------------- GUARDAR FACTURA-----------------------------------------
 
     		$scope.guardar_factura=function(tipo_save_fac){
-    			$scope.data.tipo_save_fac=tipo_save_fac;
-					Facturacion_Services.Facturas().Add().send({cliente:$scope.data,detalles:$scope.detalles_fac,totales:$scope.totales}).$promise.then(function(data){
-						if (data.respuesta==true) {
-							$scope.get_tabla();
-							$scope.detalles_fac=[];
-							$mdDialog.hide();
-							LxNotificationService.success('Se ha guardado correctamente');
-						}
-					});
+    	// 		$scope.data.tipo_save_fac=tipo_save_fac;
+
+    	// 		if ($scope.cliente=='SI') {
+    	// 			$scope.data.ruc_ci=$scope.data.ruc_ci;
+    	// 		}else{
+					// $scope.data.ruc_ci='9999999999999';
+    	// 		}
+
+					// Facturacion_Services.Facturas().Add().send({cliente:$scope.data,detalles:$scope.detalles_fac,totales:$scope.totales}).$promise.then(function(data){
+					// 	if (data.respuesta==true) {
+					// 		$scope.get_tabla();
+					// 		$scope.detalles_fac=[];
+					// 		$mdDialog.hide();
+					// 		LxNotificationService.success('Facturado Correctamente');
+					// 		$window.open(data.fac, '_blank');
+					// 	}
+					// },function(error){
+					// 	LxNotificationService.error('Ha ocurrido un error intentalo nuevamente :(');
+					// });
+
+				$mdDialog.show({
+            controller: FacturaPreviewController,
+            templateUrl: 'views/Dash/Facturacion/Vender/model_factura.html',
+            parent: angular.element(document.body),
+            targetEvent: event,
+            ariaLabel: 'Respuesta Registro',
+            clickOutsideToClose: false
+        	});
+
+    		}
+
+    		function FacturaPreviewController($scope,$uibModal) {
+
+            var ctrl = $scope;
+            
+            ctrl.openInvoice = function () {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'invoice', size: 'lg',
+                    // controller: 'FacturaPreviewController',
+                    // controllerAs: 'ctrl'
+                });
+            }
+
+             ctrl.openInvoiceNoPrint = function () {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'invoiceNoPrint', size: 'lg',
+                    // controller: 'FacturaPreviewController',
+                    
+                    // controllerAs: 'ctrl'
+                });
+            }
+        
+	        function printCtrl() {
+	            var ctrl = this;
+	            ctrl.items = [{name:'Baseballs',quantity: 50,unitCost: 5, total: 250 },{name:'Baseball Bats',quantity: 2,unitCost: 150, total: 300 }];
+	            ctrl.print = function () {
+	                window.print();
+	            }
+	        }
 
     		}
 
