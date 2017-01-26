@@ -477,34 +477,9 @@ app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorag
 
     		}
 
-    		function FacturaPreviewController($scope,$uibModal) {
+    		function FacturaPreviewController($scope) {
 
-            var ctrl = $scope;
-            
-            ctrl.openInvoice = function () {
-                var modalInstance = $uibModal.open({
-                    templateUrl: 'invoice', size: 'lg',
-                    // controller: 'FacturaPreviewController',
-                    // controllerAs: 'ctrl'
-                });
-            }
-
-             ctrl.openInvoiceNoPrint = function () {
-                var modalInstance = $uibModal.open({
-                    templateUrl: 'invoiceNoPrint', size: 'lg',
-                    // controller: 'FacturaPreviewController',
-                    
-                    // controllerAs: 'ctrl'
-                });
-            }
-        
-	        function printCtrl() {
-	            var ctrl = this;
-	            ctrl.items = [{name:'Baseballs',quantity: 50,unitCost: 5, total: 250 },{name:'Baseball Bats',quantity: 2,unitCost: 150, total: 300 }];
-	            ctrl.print = function () {
-	                window.print();
-	            }
-	        }
+            	window.print();
 
     		}
 

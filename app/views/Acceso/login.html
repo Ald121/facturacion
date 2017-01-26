@@ -1,13 +1,13 @@
 
-<div class="tc-white-1 p+" flex-container="column" flex-align="space-between center" style="height: 250px">
-    <div class="p+" style="width: 30%;">
+<div class="tc-white-1 p+" flex-container="column" flex-align="space-between center" style="margin-left: 20%;">
+    <div class="p+" style="width: 50%;">
     <form name="form_login" ng-submit="Ingresar()">
    <md-card>
         <img ng-src="images/login.jpg" class="md-card-image" alt="BIENVENIDO A BIZ">
         <lx-progress lx-type="linear" lx-color="teal" ng-if="progreso"></lx-progress>
         <md-card-title>
           <md-card-title-text>
-            <md-button class="md-primary md-hue-1" ><span>BIENVENIDOS A BIZ</span></md-button>
+            <md-button class="md-hue-1" style="color:rgb(73, 108, 181);"><span>BIENVENIDOS A BIZ</span></md-button>
           </md-card-title-text>
         </md-card-title>
         <md-card-content>
@@ -29,7 +29,7 @@
                     </md-input-container>
         </md-card-content>
         <md-card-actions layout="row" layout-align="end center">
-          <md-button type="submit" class="md-primary md-hue-1" ng-disabled="form_login.$invalid">INGRESAR</md-button>
+          <md-button type="submit" class="md-accent md-hue-1" ng-disabled="form_login.$invalid">INGRESAR</md-button>
         </md-card-actions>
       </md-card>
       </form>

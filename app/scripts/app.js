@@ -26,7 +26,7 @@ var app = angular
         'io-barcode',
         'angularFileUpload',
         'AngularPrint',
-        'ui.bootstrap'
+        // 'ui.bootstrap'
     ]);
 app.config(function($routeSegmentProvider, $routeProvider) {
     // Configuring provider options    

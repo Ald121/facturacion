@@ -32,7 +32,7 @@
                     <td md-cell>{{dessert.nombre_corto}}</td>
                     <td md-cell>{{dessert.descripcion_corta}}</td>
                     <td md-cell>{{dessert.cantidad}}</td>
-                    <td md-cell>{{dessert.precio}}</td>
+                    <td md-cell>{{dessert.precio+' c/'+dessert.unidad.abreviatura}}</td>
                     <td md-cell>
                         <md-button class="md-icon-button" ng-click="add_prod_fac(dessert)" type="button">
                             <md-tooltip md-direction="top">
