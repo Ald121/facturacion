@@ -516,6 +516,25 @@ app.controller('ProductosCtrl', function ($scope,$rootScope, $location,$localSto
 				Inventario_Services.Unidades().Get().send({},succes_Unidades).$promise;
 			        
 			    // ------------------------------FIN LLENADO SELECTS ------------------------------
+			    // ------------------------------ PROVEEDOR -------------------------------------
+
+			    $scope.buscar_proveedor=function(){
+			    	if ($scope.ruc_proveedor!=undefined) {
+				    	if ($scope.ruc_proveedor.length==10||$scope.ruc_proveedor.length==13) {
+				    		Inventario_Services.Proveedores().Get_Proveedor_By_Ruc().send({ruc: $scope.ruc_proveedor}).$promise.then(function(data){
+				    			if (data.respuesta==true) {
+				    				$scope.data_proveedor=data.proveedor;
+				    				$scope.no_proveedor=false;
+				    			}else{
+				    				$scope.no_proveedor=true;
+				    			}		                     
+			                });
+				    	}else {
+				    		$scope.data_proveedor="";
+				    		$scope.no_proveedor=true;
+				    	}
+			    	}
+			    }
 
 			    //-------------------------------- SUBIR IMAGENES -------------------------------
 			    var uploader = $scope.uploader = new FileUploader({
@@ -545,6 +564,7 @@ app.controller('ProductosCtrl', function ($scope,$rootScope, $location,$localSto
 			    $scope.data_producto.modelo=modelo;
 			    $scope.data_producto.marca=cm.ModelMarcas.selectedMarca.id;
 			    $scope.data_producto.token=$localStorage.token;
+			    $scope.data_producto.proveedor=$scope.data_proveedor.ruc;
 	            fileItem.formData.push($scope.data_producto);
 			    };
 
@@ -569,6 +589,7 @@ app.controller('ProductosCtrl', function ($scope,$rootScope, $location,$localSto
 			    $scope.data_producto.modelo=modelo;
 			    $scope.data_producto.marca=cm.ModelMarcas.selectedMarca.id;
 			    $scope.data_producto.token=$localStorage.token;
+			    $scope.data_producto.proveedor=$scope.data_proveedor.ruc;
 
 
 					for (var i = 0; i < $scope.uploader.queue.length; i++) {
@@ -703,20 +724,14 @@ app.controller('ProveedoresCtrl', function ($scope,$rootScope, $location,$localS
 
 			function DialogController_nuevo($scope,Inventario_Services,LxNotificationService) {
 
-				//---------------------------------------- LLENADO SELECTS -----------------------------------
-				//----------------------------------------- CATEGORIAS ----------------------------------------
-				
-
 				$scope.guardar=function(){
-
-					console.log($scope.data_producto);
-					// Inventario_Services.Proveedores().Add().send({proveedor:$scope.data,persona:$scope.data_persona}).$promise.then(function(data){
-					// 	if (data.respuesta==true) {
-					// 		$rootScope.$emit("actualizar_tabla", {});
-					// 		$mdDialog.hide();
-					// 		LxNotificationService.success('Se ha guardado correctamente');
-					// 	}
-					// })
+					Inventario_Services.Proveedores().Add().send({proveedor:$scope.data,persona:$scope.data_persona}).$promise.then(function(data){
+						if (data.respuesta==true) {
+							$rootScope.$emit("actualizar_tabla", {});
+							$mdDialog.hide();
+							LxNotificationService.success('Se ha guardado correctamente');
+						}
+					})
 				}
 
 				$scope.cancel = function() {

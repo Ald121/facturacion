@@ -56,6 +56,7 @@ app.config(function($routeSegmentProvider, $routeProvider) {
         //Facturacion
         .when('/Dash/Facturacion/Clientes', 'dashboard.clientes')
         .when('/Dash/Facturacion/Vender', 'dashboard.vender')
+        .when('/Dash/Facturacion/MisFacturas', 'dashboard.misfacturas')
 
     .segment('dashboard', {
             templateUrl: 'views/Dash/index.html',
@@ -99,10 +100,10 @@ app.config(function($routeSegmentProvider, $routeProvider) {
             controller: 'VenderCtrl'
         })
 
-    .segment('MisFacturas', {
-        templateUrl: 'views/Dash/Facturacion/MisFacturas/index.html',
-        controller: 'MisFacturasCtrl'
-    })
+        .segment('misfacturas', {
+            templateUrl: 'views/Dash/Facturacion/MisFacturas/index.html',
+            controller: 'MisFacturasCtrl'
+        })
 
     .up()
 });

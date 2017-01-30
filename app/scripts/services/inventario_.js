@@ -289,6 +289,17 @@ angular.module('facturacionApp')
 									            }
 								});
 
+				            },
+				             Get_Proveedor_By_Ruc: function() {
+				                return $resource(Servicios_Generales.server()+'Get_Proveedor_By_Ruc', {} , {
+								            send: {
+									                method: 'POST', isArray: false,
+									                params: {
+									                    token: $localStorage.token
+									                }
+									            }
+								});
+
 				            }
         				}
 		        

@@ -44,7 +44,7 @@
                 </tr>
             </tbody>
         </table>
-    <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.pagina_actual" md-total="{{total}}" md-on-paginate="data_inv_tc_get" md-page-select></md-table-pagination>
+    <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.pagina_actual" md-total="{{total}}" md-on-paginate="get_tabla" md-page-select></md-table-pagination>
         </md-card-content>
       </md-card>
 
@@ -189,13 +189,13 @@
  <!--    <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.pagina_actual" md-total="{{total}}" md-on-paginate="data_inv_tc_get" md-page-select></md-table-pagination> -->
         </md-card-content>
          <md-card-actions layout="row" layout-align="start">
-          <md-button class="md-raised" ng-click="guardar_factura(false)" flex ng-disabled="detalles_fac.length==0">
+          <!-- <md-button class="md-raised" ng-click="guardar_factura(false)" flex ng-disabled="detalles_fac.length==0">
             <md-tooltip md-direction="top">
                 No Facturar
             </md-tooltip>
             <md-icon class="md-primary" md-svg-icon="images/icons/facturar-archivar.svg"></md-icon>
           NO FACTURAR {{detalles_fac.length}}
-          </md-button>
+          </md-button> -->
           <md-button class="md-raised md-primary" ng-click="guardar_factura(true)" flex ng-disabled="detalles_fac.length==0">
             <md-tooltip md-direction="top">
                 Facturar

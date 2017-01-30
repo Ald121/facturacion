@@ -1,9 +1,9 @@
-<md-button ng-href="#/Inventario/" aria-label="btn_in">Inventario</md-button>/
-<md-button ng-disabled="true" class="md-primary" aria-label="btn_in">Proveedores</md-button>
+<md-button ng-href="#/Dash/" aria-label="btn_in">Facturación</md-button>/
+<md-button ng-disabled="true" class="md-primary" aria-label="btn_in">Clientes</md-button>
 <md-button class="md-icon-button" ng-click="nuevo_dialog($event)" aria-label="Add">
 <md-icon md-svg-icon="images/icons/add.svg"></md-icon>
 <md-tooltip md-direction="bottom" >
-          Añadir Proveedor
+          Añadir Cliente
 </md-tooltip>   
 </md-button>
 <md-divider></md-divider>
@@ -25,31 +25,33 @@
         <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
             <thead md-head md-order="query.order" md-on-reorder="data_inv_tc_get">
                 <tr md-row>
-                    <th md-column md-numeric>RUC</th>
-                    <th md-column md-order-by="nameToLower"><span>NOMBRE</span></th>
-                    <th md-column md-numeric>DIRECCION</th>
-                    <th md-column md-numeric>TELÉFONO</th>
-                    <th md-column md-numeric>MODIFICAR/ELIMINAR</th>
+                    <th md-column md-order-by="nameToLower"><span>NUMERO DE FACTURA</span></th>
+                    <th md-column md-numeric>CLIENTE</th>
+                    <th md-column md-numeric>SUBTOTAL</th>
+                    <th md-column md-numeric>TOTAL</th>
+                    <th md-column md-numeric>FECHA</th>
+                    <th md-column md-numeric>VER DETALLES/NO DEDUCIR</th>
                 </tr>
             </thead>
             <tbody md-body>
                 <tr md-row md-select="dessert" md-select-id="name" md-auto-select ng-repeat="dessert in data_table">
-                    <td md-cell>{{dessert.ruc}}</td>
-                    <td md-cell>{{dessert.nombre}}</td>
-                    <td md-cell>{{dessert.direccion}}</td>
-                    <td md-cell>{{dessert.datos_contacto.telefono}}</td>
+                    <td md-cell>{{dessert.serie}}</td>
+                    <td md-cell>{{dessert.cliente.razon_social || "COSUMIDOR FINAL"}}</td>
+                    <td md-cell>{{dessert.subtotal}}</td>
+                    <td md-cell>{{dessert.total_pagar}}</td>
+                    <td md-cell>{{dessert.fecha_creacion}}</td>
                     <td md-cell>
-                        <md-button class="md-icon-button" ng-click="dialog_update(dessert)" type="button">
+                        <md-button class="md-icon-button" ng-click="ver_detalles(dessert)" type="button">
                             <md-tooltip md-direction="top">
-                                Modificar
+                                Ver Detalles
                             </md-tooltip>
-                            <md-icon class="md-primary">mode_edit</md-icon>
+                            <md-icon class="md-primary" md-svg-icon="images/icons/pdf.svg"></md-icon>
                         </md-button>
-                        <md-button class="md-icon-button" ng-click="dialog_eliminar(dessert)" type="button">
+                        <md-button class="md-icon-button" ng-click="update_deducir(dessert)" type="button">
                             <md-tooltip md-direction="top">
-                                Eliminar
+                                No Deducir
                             </md-tooltip>
-                            <md-icon class="md-primary">delete</md-icon>
+                            <md-icon class="md-primary" md-svg-icon="images/icons/remove.svg"></md-icon>
                         </md-button>
                     </td>
                 </tr>

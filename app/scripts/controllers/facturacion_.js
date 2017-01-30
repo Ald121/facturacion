@@ -263,7 +263,7 @@ app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorag
 			        filter: '',
 			        num_registros: 5,
 			        pagina_actual: 1,
-			        limit: '5',
+			        limit: '15',
 			        page_num: 1
 			    };
 
@@ -446,40 +446,40 @@ app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorag
     		//----------------------------------------------------- GUARDAR FACTURA-----------------------------------------
 
     		$scope.guardar_factura=function(tipo_save_fac){
-    	// 		$scope.data.tipo_save_fac=tipo_save_fac;
+    			$scope.data.tipo_save_fac=true;
 
-    	// 		if ($scope.cliente=='SI') {
-    	// 			$scope.data.ruc_ci=$scope.data.ruc_ci;
-    	// 		}else{
-					// $scope.data.ruc_ci='9999999999999';
-    	// 		}
+    			if ($scope.cliente=='SI') {
+    				$scope.data.ruc_ci=$scope.data.ruc_ci;
+    			}else{
+					$scope.data.ruc_ci='9999999999999';
+    			}
 
-					// Facturacion_Services.Facturas().Add().send({cliente:$scope.data,detalles:$scope.detalles_fac,totales:$scope.totales}).$promise.then(function(data){
-					// 	if (data.respuesta==true) {
-					// 		$scope.get_tabla();
-					// 		$scope.detalles_fac=[];
-					// 		$mdDialog.hide();
-					// 		LxNotificationService.success('Facturado Correctamente');
-					// 		$window.open(data.fac, '_blank');
-					// 	}
-					// },function(error){
-					// 	LxNotificationService.error('Ha ocurrido un error intentalo nuevamente :(');
-					// });
+					Facturacion_Services.Facturas().Add().send({cliente:$scope.data,detalles:$scope.detalles_fac,totales:$scope.totales}).$promise.then(function(data){
+						if (data.respuesta==true) {
+							$scope.get_tabla();
+							$scope.detalles_fac=[];
+							$mdDialog.hide();
+							LxNotificationService.success('Facturado Correctamente');
+							$window.open(data.fac, '_blank');
+						}
+					},function(error){
+						LxNotificationService.error('Ha ocurrido un error intentalo nuevamente :(');
+					});
 
-				$mdDialog.show({
-            controller: FacturaPreviewController,
-            templateUrl: 'views/Dash/Facturacion/Vender/model_factura.html',
-            parent: angular.element(document.body),
-            targetEvent: event,
-            ariaLabel: 'Respuesta Registro',
-            clickOutsideToClose: false
-        	});
+				// $mdDialog.show({
+			    //         controller: FacturaPreviewController,
+			    //         templateUrl: 'views/Dash/Facturacion/Vender/model_factura.html',
+			    //         parent: angular.element(document.body),
+			    //         targetEvent: event,
+			    //         ariaLabel: 'Respuesta Registro',
+			    //         clickOutsideToClose: false
+			    //     	});
 
     		}
 
     		function FacturaPreviewController($scope) {
 
-            	window.print();
+            	//window.print();
 
     		}
 
@@ -613,5 +613,69 @@ app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorag
 		            $mdDialog.cancel();
 		        };
 			}
+
+	  	});
+
+app.controller('MisFacturasCtrl', function ($scope,$rootScope, $location,$localStorage,$mdDialog,Facturacion_Services,Servicios_Generales,LxNotificationService,$window) {
+			$scope.selected=[];
+			// -------------------------------------------------------MIS FACTURAS------------------------------------------------------------
+			//------------------------------------------------- LLENADO DE TABLA -----------------------------------------
+			function selectCallback(_newValue, _oldValue) {
+            console.log('Old value: ', _oldValue);
+            console.log('New value: ', _newValue);
+        	}
+			var bookmark;
+			$scope.query = {
+			        filter: '',
+			        num_registros: 5,
+			        pagina_actual: 1,
+			        limit: '15',
+			        page_num: 1
+			    };
+
+			function success_tabla(result){
+				$scope.data_table=result.respuesta.data;
+			}
+			$scope.get_tabla=function(){
+				Facturacion_Services.Facturas().Get().send($scope.query,success_tabla).$promise
+			}
+
+			$scope.$watch('query.filter', function(newValue, oldValue) {
+		        if (!oldValue) {
+		            bookmark = $scope.query.page;
+		        }
+
+		        if (newValue !== oldValue) {
+		            $scope.query.page = 1;
+		        }
+
+		        if (!newValue) {
+		            $scope.query.page = bookmark;
+		        }
+		        $scope.get_tabla();
+		    });
+
+			$rootScope.$on("actualizar_tabla", function() {
+        		$scope.get_tabla();
+    		});
+			//----------------------------------------------------- ACTULIZAR DEDUCCION DE FACTURA -----------------------------------------
+			$scope.update_deducir=function(factura){
+					Facturacion_Services.Facturas().Update().send(factura).$promise.then(function(data){
+						if (data.respuesta==true) {
+							$rootScope.$emit("actualizar_tabla", {});
+							$mdDialog.hide();
+							LxNotificationService.success('Se ha guardado correctamente');
+						}
+					})
+				}
+			//----------------------------------------------------- DETALLES DE FACTURA -----------------------------------------
+				
+				$scope.ver_detalles=function(factura){
+					
+					var url=Servicios_Generales.server()+'facturas/'+factura.id+'.pdf';
+					$window.open(url, '_blank');
+
+				}
+
 
 	  	});

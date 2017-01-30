@@ -20,6 +20,32 @@
                             <md-content layout="row">
                                     <md-input-container class="md-icon-float md-block" flex="30">
                                         <md-icon class="md-primary" md-svg-icon="images/icons/text.svg"></md-icon>
+                                        <label>Proveedor</label>
+                                        <input name="ruc_proveedor" ng-model="ruc_proveedor" ng-keyup="buscar_proveedor()" type="text" numeros-only required>
+                                        <div ng-messages="form.ruc_proveedor.$error">
+                                            <div ng-message="required" ng-show="form.ruc_proveedor.$error.required">Campo Requerido</div>
+                                            <div ng-show="no_proveedor" style="    font-size: 12px;">El Proveedor No Existe</div>
+                                        </div>
+                                    </md-input-container>
+
+                                    <md-input-container class="md-icon-float md-block" flex>
+                                    <md-icon class="md-primary" md-svg-icon="images/icons/text.svg"></md-icon>
+                                        <label>Nombre Proveedor</label>
+                                        <input name="nombre_proveedor" ng-model="data_proveedor.nombre" disabled>
+                                        <div ng-messages="form.nombre_proveedor.$error" ng-show="form.nombre_proveedor.$dirty">
+                                            <div ng-message="required" ng-show="form.nombre_proveedor.$error.required">Campo Requerido</div>
+                                        </div>
+                                    </md-input-container>
+
+                                    <md-input-container class="md-icon-float md-block" flex>
+                                    <md-icon class="md-primary" md-svg-icon="images/icons/text.svg"></md-icon>
+                                        <label>Dirección</label>
+                                        <input name="nom_modelo" ng-model="data_proveedor.direccion" type="text" disabled>
+                                    </md-input-container>
+                                </md-content>
+                            <md-content layout="row">
+                                    <md-input-container class="md-icon-float md-block" flex="30">
+                                        <md-icon class="md-primary" md-svg-icon="images/icons/text.svg"></md-icon>
                                         <label>Nombre Producto</label>
                                         <input name="nom_producto" ng-model="data_producto.nombre_corto" type="text" productos-validator required>
                                         
@@ -66,7 +92,7 @@
                                         </div>
                                     </md-input-container>
                                 </md-content>
-                                <md-content layout-padding layout="row">
+                                <md-content layout-padding layout="row" >
                                  <div class="md-icon-float md-block" flex>
                                         <lx-select ng-model="ModelUnidades.selectedUnidad" lx-fixed-label="true" lx-allow-clear="true" lx-choices="ListUnidades" lx-display-filter="true" lx-fixed-label="true" lx-label="Unidad" required>
                                             <lx-select-selected>
