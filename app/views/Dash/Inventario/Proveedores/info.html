@@ -1,0 +1,112 @@
+<md-dialog aria-label="Mango (Fruit)" style="width: 1000px;">
+    <form name="form" ng-submit="guardar()">
+<!--         <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Nuevo, Proveedor</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon aria-label="Close dialog">close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar> -->
+        <md-dialog-content>
+            <div ng-cloak>
+              <md-content>
+                <br>
+                <div ng-show="load" layout="row" layout-sm="column" layout-align="space-around">
+                  <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                </div>
+                <md-tabs ng-show="!load" md-dynamic-height>
+                  <md-tab>
+                    <md-tab-label>
+                      <md-icon md-svg-icon="images/icons/info.svg"></md-icon> Información General
+                    </md-tab-label>
+                    <md-tab-body>
+                    <div class="md-padding" layout="row" flex="100" style="height: 84px;">
+                        <md-input-container class="md-icon-float md-block" flex="20">
+                            <md-icon class="md-primary">view_compact</md-icon>
+                            <label>Ruc </label>
+                            <input name="ruc" ng-model="data.ruc" type="text" required readonly>
+                        </md-input-container>
+                        <md-input-container class="md-icon-float md-block" flex="40" readonly>
+                            <md-icon class="md-primary">view_compact</md-icon>
+                            <label>Nombre del Proveedor</label>
+                            <input name="nombre" ng-model="data.nombre" type="text" required readonly>
+                        </md-input-container>
+                        <md-input-container class="md-icon-float md-block" flex="40" readonly>
+                            <md-icon class="md-primary">view_compact</md-icon>
+                            <label>Correo (Proveedor)</label>
+                            <input name="correo" ng-model="data.correo" type="text" required readonly>
+                        </md-input-container>
+                    </div>
+                    <div class="md-padding" layout="row" flex="100" style="height: 84px;">
+                        <md-input-container class="md-icon-float md-block" flex="40" readonly >
+                            <md-icon class="md-primary">view_compact</md-icon>
+                            <label>Teléfono </label>
+                            <input name="telefono" ng-model="data.telefono" type="text" required readonly>
+                        </md-input-container>
+                        <md-input-container class="md-icon-float md-block" flex="40" readonly>
+                            <md-icon class="md-primary">view_compact</md-icon>
+                            <label>Celular </label>
+                            <input name="celular" ng-model="data.celular" type="text" readonly>
+                        </md-input-container>
+                    </div>
+                    <div class="md-padding" layout="row" flex="100" style="height: 84px;">
+                        <md-input-container class="md-icon-float md-block" flex>
+                            <md-icon class="md-primary">view_compact</md-icon>
+                            <label>Dirección </label>
+                            <input name="direccion" ng-model="data.direccion" type="text" required readonly>
+                        </md-input-container>
+                    </div>
+                    </md-tab-body>
+                  </md-tab>
+                  <md-tab>
+                    <md-tab-label>
+                      <md-icon md-svg-icon="images/icons/phone.svg"></md-icon> Información de Contacto (Persona Encargada)
+                    </md-tab-label>
+                    <md-tab-body>
+                       <div class="md-padding" layout="row" flex="100">
+                       <md-input-container class="md-icon-float md-block" flex="40" readonly>
+                            <md-icon class="md-primary">view_compact</md-icon>
+                            <label>Cédula </label>
+                            <input name="cedula" ng-model="data_persona.cedula" type="text" >
+                        </md-input-container>
+                        <md-input-container class="md-icon-float md-block" flex="40" readonly>
+                            <md-icon class="md-primary">view_compact</md-icon>
+                            <label>Nombres </label>
+                            <input name="nombre" ng-model="data_persona.nombre" type="text" >
+                        </md-input-container>
+                        <md-input-container class="md-icon-float md-block" flex="40" readonly>
+                            <md-icon class="md-primary">view_compact</md-icon>
+                            <label>Apellidos </label>
+                            <input name="apellido" ng-model="data_persona.apellido" type="text" >
+                        </md-input-container>
+                    </div>
+                    <div class="md-padding" layout="row" flex="100">
+                        <md-input-container class="md-icon-float md-block" flex="40" readonly>
+                            <md-icon class="md-primary">view_compact</md-icon>
+                            <label>Teléfono </label>
+                            <input name="telefono" ng-model="data_persona.telefono" type="text" >
+                        </md-input-container>
+                        <md-input-container class="md-icon-float md-block" flex="40" readonly>
+                            <md-icon class="md-primary">view_compact</md-icon>
+                            <label>Celular </label>
+                            <input name="celular" ng-model="data_persona.celular" type="text" >
+                        </md-input-container>
+                        <md-input-container class="md-icon-float md-block" flex="40" readonly>
+                            <md-icon class="md-primary">view_compact</md-icon>
+                            <label>Correo (Persona Encargada)</label>
+                            <input name="correo" ng-model="data_persona.correo" type="text" >
+                        </md-input-container>
+                    </div>
+                    </md-tab-body>
+                  </md-tab>
+                </md-tabs>
+              </md-content>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">Cerrar</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

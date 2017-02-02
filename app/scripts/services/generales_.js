@@ -33,5 +33,16 @@ angular.module('facturacionApp')
 					            }
 		        });
      }
+
+     this.Session_Status = function(){
+     	return $resource(dir_server+'Session_Status', {} , {
+				            get: {
+					                method: 'POST', isArray: false,
+					                params: {
+						                     token: $localStorage.token
+						                    }
+					            }
+		        });
+     }
 	    	
   });

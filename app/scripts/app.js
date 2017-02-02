@@ -108,7 +108,7 @@ app.config(function($routeSegmentProvider, $routeProvider) {
     .up()
 });
 
-app.run(['$rootScope', '$location', 'Auth', function($rootScope, $location, Auth) {
+app.run(['$rootScope', '$location', 'Auth','Servicios_Generales','$localStorage', function($rootScope, $location, Auth,Servicios_Generales,$localStorage) {
     $rootScope.$on('$routeChangeStart', function(event) {
         if (!Auth.isLoggedIn()) {
             console.log('Acceso Denegado');
@@ -118,8 +118,13 @@ app.run(['$rootScope', '$location', 'Auth', function($rootScope, $location, Auth
             if ($location.path() == '/') {
                 $location.path('/Dash');
             }
-            //$location.path('/Dash');
-
+           Servicios_Generales.Session_Status().get().$promise.then(function(){},function(error){
+            if (error.status==401) {
+                    $localStorage.$reset();
+                    $location.path('/');
+            }
+           });
+            $rootScope.$emit("actualizar_tabla_productos_agotados", {});
         }
     });
 }]);

@@ -93,6 +93,45 @@ box-shadow: 1px 2px 5px 0px rgba(150,150,150,1);position:fixed !important; top: 
     </md-content>
     </md-list>
 </md-sidenav>
+
+
+<md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
+      <md-toolbar class="md-hue-2">
+      <div class="md-toolbar-tools">
+        <h2 flex md-truncate>Productos Agotados</h2>
+        <md-button class="md-icon-button" ng-click="close()" aria-label="Cerrar">
+          <md-icon md-svg-icon="images/icons/close.svg"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+      <md-content  layout-padding>
+      <md-list class="md-dense" flex>
+            <!-- <md-subheader class="md-no-sticky">3 line item (dense)</md-subheader> -->
+        <md-list-item class="md-3-line" ng-repeat="item in productos_agotados">
+          <img ng-src="{{item.image}}" class="md-avatar" alt="{{item.nombre_corto}}" />
+          <div class="md-list-item-text" layout="column">
+            <h3><strong>{{ item.nombre_corto }}</strong></h3>
+            <h4>Cantidad Actual: {{ item.cantidad }}</h4>
+            <p>Stock Mínimo: {{ item.stock_minimo }}</p>
+          </div>
+            <md-divider ></md-divider>
+          <div class="md-list-item-text" layout="column">
+            <h3></h3>
+            <h4>
+            <md-button class="md-icon-button"  ng-click="contactar_proveedor_dialog(item)" aria-label="Productos Agotados">
+                <md-icon md-svg-icon="images/icons/phone-book.svg"></md-icon>
+                <md-tooltip md-direction="bottom" >
+                      Contactar Proveedor
+                </md-tooltip> 
+            </md-button>
+            </h4>
+            <p></p>
+          </div>
+        </md-list-item>
+          <md-list>
+      </md-content>
+</md-sidenav>
+
 <div layout="column" class="relative" layout-fill role="main">
     <!-- <md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="showAdd($event)">
         <ng-md-icon icon="add"></ng-md-icon>
@@ -103,6 +142,16 @@ box-shadow: 1px 2px 5px 0px rgba(150,150,150,1);position:fixed !important; top: 
                 <ng-md-icon icon="menu"></ng-md-icon>
             </md-button>
             <span flex></span>
+          <md-button ng-click="toggleRight()"
+            ng-hide="isOpenRight()"
+            class="md-icon-button"  aria-label="Productos Agotados" ng-show="productos_agotados.length>0">
+            <md-icon md-svg-icon="images/icons/alarm.svg"></md-icon>
+            <div class="badge1"  data-badge="{{productos_agotados.length}}"></div>
+            <md-tooltip md-direction="bottom" >
+                  Productos Agotados
+            </md-tooltip> 
+          </md-button>
+          
             <lx-dropdown lx-position="right" lx-over-toggle="true">
                 <lx-dropdown-toggle>
                     <lx-button lx-size="l" lx-color="blue" lx-type="icon"><i class="mdi mdi-dots-vertical tc-white-1"></i></lx-button>
@@ -121,3 +170,25 @@ box-shadow: 1px 2px 5px 0px rgba(150,150,150,1);position:fixed !important; top: 
         <div app-view-segment="1"></div>
     </md-content>
 </div>
+
+<style type="text/css"> 
+
+.badge1 {
+   position:relative;
+}
+.badge1[data-badge]:after {
+  content: attr(data-badge);
+position: absolute;
+top: -21px;
+right: 13px;
+font-size: 0.9em;
+background: rgb(243, 33, 33);
+color: white;
+width: 18px;
+height: 18px;
+text-align: center;
+line-height: 18px;
+border-radius: 50%;
+}
+
+</style>

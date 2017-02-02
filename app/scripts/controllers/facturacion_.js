@@ -238,7 +238,6 @@ app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorag
 						}
 					}
 
-					
 				}
 
 			$scope.buscar_cliente=function(){
@@ -271,7 +270,9 @@ app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorag
 				$scope.data_table=result.respuesta.data;
 			}
 			$scope.get_tabla=function(){
-				Inventario_Services.Productos().Get().send($scope.query,success_tabla).$promise
+				Inventario_Services.Productos().Get().send($scope.query,success_tabla).$promise.then(function(){},function(error){
+					$scope.get_tabla();
+				})
 			}
 
 			$scope.$watch('query.filter', function(newValue, oldValue) {
