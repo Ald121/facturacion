@@ -1,0 +1,89 @@
+<md-button ng-href="#/Dash/" aria-label="btn_in">Configuración</md-button>/
+<!-- <md-button ng-disabled="true" class="md-primary" aria-label="btn_in">Mis Proformas</md-button> -->
+<md-divider></md-divider>
+<md-content layout-padding layout-wrap layout="row">
+   <md-card flex>
+
+   <md-tabs md-dynamic-height md-border-bottom>
+      <md-tab label="GENERAL">
+        <md-content class="md-padding">
+        <form name="form_general" ng-submit="save_datos_empresa()">
+	          <md-content layout="column" layout-wrap>
+	          <div layout="row" style="margin-left: 40%; margin-right: 40%;">
+<!-- 	          	<img src="images/login.jpg">
+	          	<md-button class="md-primary" flex>CAMBIAR LOGO</md-button> -->
+          	<lf-ng-md-file-input name="files00" lf-files="files09" lf-api="api09" lf-required lf-maxcount="5" lf-filesize="10MB" lf-mimetype="image/*" drag preview></lf-ng-md-file-input>
+
+    <!-- <md-button type="button" ng-disabled="form_general.$invalid" class="md-raised md-primary" ng-click="api09.removeAll()">Submit</md-button> -->
+
+	           </div>
+	           <br>
+	           <md-divider ></md-divider>
+	           <br>
+	           <div layout="row" flex>
+	              <md-input-container class="md-icon-float md-block" flex>
+                        <md-icon class="md-primary" md-svg-icon="images/icons/text.svg"></md-icon>
+                        <label>CI/RUC (PROPIETARIO)</label>
+                        <input name="ruc" ng-model="data.ruc" type="text" limit-to="13" numeros-only required>
+                        <div ng-messages="form_general.ruc.$error">
+                            <div ng-message="required" ng-show="form_general.ruc.$error.required">Campo Requerido</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-icon-float md-block" flex>
+                        <md-icon class="md-primary" md-svg-icon="images/icons/text.svg"></md-icon>
+                        <label>NOMBRE DEL NEGOCIO / EMPRESA</label>
+                        <input name="nombre" ng-model="data.nombre" type="text" limit-to="100" required>
+                        <div ng-messages="form_general.nombre.$error">
+                            <div ng-message="required" ng-show="form_general.nombre.$error.required">Campo Requerido</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-icon-float md-block" flex>
+                        <md-icon class="md-primary" md-svg-icon="images/icons/text.svg"></md-icon>
+                        <label>TÉLEFONO</label>
+                        <input name="telefono" ng-model="data.telefono" type="text" limit-to="13" required>
+                        <div ng-messages="form_general.telefono.$error">
+                            <div ng-message="required" ng-show="form_general.telefono.$error.required">Campo Requerido</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-icon-float md-block" flex>
+                        <md-icon class="md-primary" md-svg-icon="images/icons/text.svg"></md-icon>
+                        <label>CORREO</label>
+                        <input name="correo" ng-model="data.correo" type="text" limit-to="100">
+                    </md-input-container>
+                    </div>
+                    <div layout="row">
+                    	<md-input-container class="md-icon-float md-block" flex>
+                        <md-icon class="md-primary" md-svg-icon="images/icons/text.svg"></md-icon>
+                        <label>DIRECCIÓN</label>
+                        <input name="direccion" ng-model="data.direccion" type="text" limit-to="500" required>
+                        <div ng-messages="form_general.direccion.$error">
+                            <div ng-message="required" ng-show="form_general.direccion.$error.required">Campo Requerido</div>
+                        </div>
+                    </md-input-container>
+                    </div>
+	          </md-content>	                    
+           <md-card-actions layout="row" layout-align="start">
+          <div flex="80"></div>
+          <md-button type="submit" class="md-primary" flex="20" ng-disabled="form_general.$invalid">GUARDAR</md-button>
+        </md-card-actions>
+        </form>
+        </md-content>
+      </md-tab>
+     <!--  <md-tab label="IMPUESTOS">
+        <md-content class="md-padding">
+          <h1 class="md-display-3">Tab Two</h1>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec, feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor in ultrices porttitor, orci enim rutrum enim, vel tempor sapien arcu a tellus. Vivamus convallis sodales ante varius gravida. Curabitur a purus vel augue ultrices ultricies id a nisl. Nullam malesuada consequat diam, a facilisis tortor volutpat et. Sed urna dolor, aliquet vitae posuere vulputate, euismod ac lorem. Sed felis risus, pulvinar at interdum quis, vehicula sed odio. Phasellus in enim venenatis, iaculis tortor eu, bibendum ante. Donec ac tellus dictum neque volutpat blandit. Praesent efficitur faucibus risus, ac auctor purus porttitor vitae. Phasellus ornare dui nec orci posuere, nec luctus mauris semper.</p>
+          <p>Morbi viverra, ante vel aliquet tincidunt, leo dolor pharetra quam, at semper massa orci nec magna. Donec posuere nec sapien sed laoreet. Etiam cursus nunc in condimentum facilisis. Etiam in tempor tortor. Vivamus faucibus egestas enim, at convallis diam pulvinar vel. Cras ac orci eget nisi maximus cursus. Nunc urna libero, viverra sit amet nisl at, hendrerit tempor turpis. Maecenas facilisis convallis mi vel tempor. Nullam vitae nunc leo. Cras sed nisl consectetur, rhoncus sapien sit amet, tempus sapien.</p>
+          <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
+        </md-content>
+      </md-tab>
+      <md-tab label="three">
+        <md-content class="md-padding">
+          <h1 class="md-display-2">Tab Three</h1>
+          <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
+        </md-content>
+      </md-tab> -->
+    </md-tabs>
+
+   </md-card>
+</md-content>

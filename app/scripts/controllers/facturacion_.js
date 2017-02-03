@@ -448,6 +448,7 @@ app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorag
 
     		$scope.guardar_factura=function(tipo_save_fac){
     			$scope.data.tipo_save_fac=true;
+    			$scope.data.tipo_registro='FAC';
 
     			if ($scope.cliente=='SI') {
     				$scope.data.ruc_ci=$scope.data.ruc_ci;

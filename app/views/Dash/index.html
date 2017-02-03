@@ -144,11 +144,11 @@ box-shadow: 1px 2px 5px 0px rgba(150,150,150,1);position:fixed !important; top: 
             <span flex></span>
           <md-button ng-click="toggleRight()"
             ng-hide="isOpenRight()"
-            class="md-icon-button"  aria-label="Productos Agotados" ng-show="productos_agotados.length>0">
+            class="md-icon-button"  aria-label="Productos Agotados" ng-if="productos_agotados.length>0">
             <md-icon md-svg-icon="images/icons/alarm.svg"></md-icon>
             <div class="badge1"  data-badge="{{productos_agotados.length}}"></div>
             <md-tooltip md-direction="bottom" >
-                  Productos Agotados
+                  Productos Agotados {{productos_agotados.length}}
             </md-tooltip> 
           </md-button>
           

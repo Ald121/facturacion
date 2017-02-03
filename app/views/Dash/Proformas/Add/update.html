@@ -1,14 +1,6 @@
-<md-button ng-href="#/Inventario/" aria-label="btn_in">Proformas</md-button>/
-<md-button ng-disabled="true" class="md-primary" aria-label="btn_in">Crear</md-button>
-<!-- <md-button class="md-icon-button" ng-click="nuevo_dialog($event)" aria-label="Add">
-<md-icon md-svg-icon="images/icons/add.svg"></md-icon>
-<md-tooltip md-direction="bottom" >
-          Vender
-</md-tooltip>   
-</md-button> -->
-<md-divider></md-divider>
-<md-content layout="row">
-     <md-card flex="50">
+<md-dialog aria-label="FormProductos">
+    <md-dialog-content style="width: 1500px!important" layout="row">
+     <md-card flex>
         <md-card-content>
                 <md-input-container class="md-icon-float md-block" layout="column" aria-label="Close">
                     <md-icon class="md-primary">search</md-icon>
@@ -47,22 +39,11 @@
     <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.pagina_actual" md-total="{{total}}" md-on-paginate="get_tabla" md-page-select></md-table-pagination>
         </md-card-content>
       </md-card>
-
-      <md-card flex="50">
+      <md-card flex style="    height: 100%;">
       <md-button class="md-secondary" disabled><strong>CLIENTE</strong></md-button>
         <md-divider></md-divider>
         <md-card-content>
-   <form name="form_add" ng-submit="guardar()">
                    <div layout="row">
-                           <md-input-container class="md-icon-float md-block" flex>
-                                <label>Nombre de la Proforma</label>
-                                <input name="nombre_proforma" ng-model="data.nombre_proforma" type="text" ng-minlength="10" limit-to="100" required>
-                                <div ng-messages="form_add.nombre_proforma.$error">
-                                    <div ng-message="required" ng-show="form_add.nombre_proforma.$error.required">Campo Requerido</div>
-                                    <div ng-message="campo" ng-show="form_add.nombre_proforma.$error.campo">El Registro Ya Existe</div>
-                                    <div ng-message="minlength" ng-show="form_add.nombre_proforma.$error.minlength">Minimo 10 caracteres</div>
-                                </div>
-                            </md-input-container>
                             <md-switch ng-model="cliente" ng-change="cambiar_tipo_cliente()" ng-true-value="'SI'" ng-false-value="'NO'" aria-label="Switch Cliente" flex>
                             CLIENTE : {{cliente}}
                             </md-switch>
@@ -137,7 +118,7 @@
                     <md-button class="md-secondary" flex disabled><strong>DETALLES DE LA FACTURA</strong></md-button>
                      </div>
                      <md-divider></md-divider>
-</form>
+
         <table md-table ng-model="selected" md-progress="promise" flex>
             <thead md-head md-order="query.order" md-on-reorder="data_inv_tc_get">
                 <tr md-row>
@@ -194,26 +175,13 @@
                 </tr>
             </tbody>
         </table>
-
- <!--    <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.pagina_actual" md-total="{{total}}" md-on-paginate="data_inv_tc_get" md-page-select></md-table-pagination> -->
         </md-card-content>
-         <md-card-actions layout="row" layout-align="start">
-          <!-- <md-button class="md-raised" ng-click="guardar_factura(false)" flex ng-disabled="detalles_fac.length==0">
-            <md-tooltip md-direction="top">
-                No Facturar
-            </md-tooltip>
-            <md-icon class="md-primary" md-svg-icon="images/icons/facturar-archivar.svg"></md-icon>
-          NO FACTURAR {{detalles_fac.length}}
-          </md-button> -->
-          <div flex="80"></div>
-          <md-button class="md-raised md-primary" ng-click="guardar_factura(true)" flex="40" ng-disabled="detalles_fac.length==0">
-            <md-tooltip md-direction="top">
-                Guardar Proforma
-            </md-tooltip>
-            <md-icon class="md-primary" md-svg-icon="images/icons/proformas.svg" ></md-icon>
-           GUARDAR PROFORMA
-          </md-button>
-        </md-card-actions>
-      </md-card>
+        </md-card>
 
-</md-content>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">CANCELAR</md-button>
+            <!-- <md-button type="button" class="md-raised md-primary">GUARDAR CAMBIOS</md-button> -->
+            <md-button class="md-raised md-primary" type="submit" ng-click="guardar_factura()" ng-disabled="detalles_fac.length==0">FACTURAR</md-button>
+        </md-dialog-actions>
+</md-dialog>

@@ -28,4 +28,45 @@ angular.module('facturacionApp')
         				}
 		        
 	    	}
+
+	 // --------------------------------------- IMPUESTOS ---------------------------------
+    this.Empresa = function(){
+	    		 return {
+				            Add: function() {
+				                return $resource(Servicios_Generales.server()+'Add_Informacion', {} , {
+								            send: {
+									                method: 'POST', isArray: false,
+									                params: {
+									                    token: $localStorage.token
+									                }
+									            }
+								});
+
+				            },
+				            Update: function() {
+				                return $resource(Servicios_Generales.server()+'Update_Informacion', {} , {
+								            send: {
+									                method: 'POST', isArray: false,
+									                params: {
+									                    token: $localStorage.token
+									                }
+									            }
+								});
+
+				            },
+				            Get: function() {
+				                return $resource(Servicios_Generales.server()+'Get_Informacion', {} , {
+								            send: {
+									                method: 'POST', isArray: false,
+									                params: {
+									                    token: $localStorage.token
+									                }
+									            }
+								});
+
+				            }
+        				}
+		        
+	    	}
+
   });

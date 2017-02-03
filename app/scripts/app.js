@@ -26,7 +26,7 @@ var app = angular
         'io-barcode',
         'angularFileUpload',
         'AngularPrint',
-        // 'ui.bootstrap'
+        'lfNgMdFileInput'
     ]);
 app.config(function($routeSegmentProvider, $routeProvider) {
     // Configuring provider options    
@@ -60,6 +60,10 @@ app.config(function($routeSegmentProvider, $routeProvider) {
         //Proformas
         .when('/Dash/Proformas/MisProformas', 'dashboard.misproformas')
         .when('/Dash/Proformas/Add', 'dashboard.proformasadd')
+
+        //Configuracion
+        .when('/Dash/Configuracion', 'dashboard.configuracion')
+        //.when('/Dash/Proformas/Add', 'dashboard.proformasadd')
 
     .segment('dashboard', {
             templateUrl: 'views/Dash/index.html',
@@ -115,6 +119,11 @@ app.config(function($routeSegmentProvider, $routeProvider) {
         .segment('misproformas', {
             templateUrl: 'views/Dash/Proformas/MisProformas/index.html',
             controller: 'MisProformasCtrl'
+        })
+
+        .segment('configuracion', {
+            templateUrl: 'views/Dash/Configuracion/index.html',
+            controller: 'ConfiguracionCtrl'
         })
 
     .up()
