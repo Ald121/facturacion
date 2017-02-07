@@ -10,7 +10,19 @@
 var app = angular.module('facturacionApp');
 
 app.controller('MainCtrl', function ($scope, $location,$localStorage,Login_Services,LxNotificationService,Auth) {
-	//------------------------------------------------------------------------------- Acceso -----------------------------------
+	//------------------------------------------------------------------------------- Licencia -----------------------------------
+	function success_licencia(result){
+		$scope.licencia=result.respuesta;
+		console.log($scope.licencia);
+	}
+
+	$scope.Get_Licencia=function(){
+		Login_Services.Licencia().Get().send({},success_licencia).$promise;
+	}
+
+	$scope.Get_Licencia();
+
+//------------------------------------------------------------------------------- Acceso -----------------------------------
 	$scope.progreso=false;
 		$scope.Ingresar=function(){
 			$scope.progreso=true;

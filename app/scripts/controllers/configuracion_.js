@@ -1,8 +1,13 @@
 var app =angular.module('facturacionApp');
   app.controller('ConfiguracionCtrl', function ($scope,$rootScope,$mdDialog,Configuracion_Services,LxNotificationService,Servicios_Generales,$http,$localStorage) {
-		
+		$scope.show_edit_img=false;
 		function sucess_data_empresa(result){
-			$scope.data=result.respuesta;
+			if (result.respuest!==false) {
+				$scope.show_edit_img=true;
+				$scope.data=result.respuesta;
+				$scope.data.imagen=Servicios_Generales.server()+$scope.data.imagen;
+			}
+			
 		}
 
 		$scope.get_datos_empresa = function(){
@@ -10,28 +15,22 @@ var app =angular.module('facturacionApp');
       		if (error.status==401) {
                     $localStorage.$reset();
                     $location.path('/');
-            }else{
-            	$scope.get_datos_empresa();
             }
+            if (error.status==500) {
+                   $scope.get_datos_empresa();
+            }
+            
+            
       	});	
     	};
     	$scope.get_datos_empresa();
 
-    	// $scope.save_datos_empresa = function(){
-     //  	Configuracion_Services.Empresa().Add().send($scope.data).$promise.then(function(data){
-     //  		if (data.respuesta) {
-     //  			$scope.get_datos_empresa();
-     //  			LxNotificationService.success('Datos Guardados Correctamente');
-     //  		}
-     //  	},function(error){
-     //  		if (error.status==401) {
-     //                $localStorage.$reset();
-     //                $location.path('/');
-     //        }
-     //        LxNotificationService.error('Ha ocurrido un error intentalo nuevamente :(');
-     //  	});	
-    	// };
-
+    	$scope.cambiar_img = function(){
+    		if ($scope.show_edit_img) {
+    			$scope.show_edit_img=false;
+    		}else $scope.show_edit_img=true;
+    		
+    	}
 
     	 $scope.save_datos_empresa = function(){
             var formData = new FormData();
@@ -45,11 +44,12 @@ var app =angular.module('facturacionApp');
 
             formData.append('token', $localStorage.token);
 
+            console.log($scope.files);
+
             angular.forEach($scope.files,function(obj){
                 if(!obj.isRemote){
                     formData.append('files[]', obj.lfFile);
                 }
-                formData.append('files[]', obj.lfFile);
             });
             $http.post(Servicios_Generales.server()+'Add_Informacion', formData, {
                 transformRequest: angular.identity,
@@ -57,7 +57,7 @@ var app =angular.module('facturacionApp');
             }).then(function(result){
                 LxNotificationService.success('Datos Guardados Correctamente');               
             },function(err){
-                if (error.status==401) {
+                if (err.status==401) {
                     $localStorage.$reset();
                     $location.path('/');
             }

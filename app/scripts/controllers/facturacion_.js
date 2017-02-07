@@ -461,6 +461,7 @@ app.controller('VenderCtrl', function ($scope,$rootScope, $location,$localStorag
 							$scope.get_tabla();
 							$scope.detalles_fac=[];
 							$mdDialog.hide();
+							$rootScope.$emit("actualizar_tabla_productos_agotados", function() {});
 							LxNotificationService.success('Facturado Correctamente');
 							$window.open(data.fac, '_blank');
 						}

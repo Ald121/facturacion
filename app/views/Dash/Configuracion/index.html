@@ -10,15 +10,17 @@
         <form name="form_general" ng-submit="save_datos_empresa()">
 	          <md-content layout="column" layout-wrap>
 	          <div layout="row" style="margin-left: 40%; margin-right: 40%;">
-<!-- 	          	<img src="images/login.jpg">
-	          	<md-button class="md-primary" flex>CAMBIAR LOGO</md-button> -->
-          	<lf-ng-md-file-input name="files00" lf-files="files09" lf-api="api09" lf-required lf-maxcount="5" lf-filesize="10MB" lf-mimetype="image/*" drag preview></lf-ng-md-file-input>
-
-    <!-- <md-button type="button" ng-disabled="form_general.$invalid" class="md-raised md-primary" ng-click="api09.removeAll()">Submit</md-button> -->
-
+	          	<md-card ng-show="show_edit_img" flex>
+		          	<img ng-src="{{data.imagen}}">
+		          	<md-button class="md-primary" ng-click="cambiar_img()" flex>CAMBIAR LOGO</md-button>
+	          	</md-card>
+          	<lf-ng-md-file-input ng-show="!show_edit_img" name="files00" lf-files="files" lf-api="api09" lf-required lf-maxcount="5" lf-filesize="10MB" lf-mimetype="image/*" drag preview></lf-ng-md-file-input>
+	           </div>
+	           <div layout="row" style="margin-left: 40%; margin-right: 40%;" ng-show="!show_edit_img">
+	           	          	<md-button class="md-primary" ng-click="cambiar_img()" flex>CANCELAR</md-button>
 	           </div>
 	           <br>
-	           <md-divider ></md-divider>
+	           <md-divider></md-divider>
 	           <br>
 	           <div layout="row" flex>
 	              <md-input-container class="md-icon-float md-block" flex>

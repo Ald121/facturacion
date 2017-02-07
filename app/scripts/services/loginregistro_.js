@@ -35,4 +35,18 @@ angular.module('facturacionApp')
         				}
 		        
 	    	}
+ //------------------------------------------------------    LICENCIA -------------------------------------------------------
+	    	this.Licencia = function(){
+	    		 return {
+				            Get: function() {
+				                return $resource(Servicios_Generales.server()+'Get_Licencia', {} , {
+								            send: {
+									                method: 'POST', isArray: false
+									            }
+								        });
+				            }
+				           
+        				}
+		        
+	    	}
   });
