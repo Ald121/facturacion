@@ -802,3 +802,136 @@ app.controller('ProveedoresCtrl', function ($scope,$rootScope, $location,$localS
 			}
 
 	  	});
+
+app.controller('IngresoMercaderiaCtrl', function ($scope,$rootScope, $location,$localStorage,$mdDialog,Inventario_Services) {
+			$scope.selected=[];
+			// -------------------------------------------------------PROVEEDORES------------------------------------------------------------
+			//------------------------------------------------- LLENADO DE TABLA -----------------------------------------
+
+			var bookmark;
+			$scope.query = {
+			        filter: '',
+			        num_registros: 5,
+			        pagina_actual: 1,
+			        limit: '5',
+			        page_num: 1
+			    };
+
+			function success_tabla(result){
+				$scope.data_table=result.respuesta.data;
+			}
+			$scope.get_tabla=function(){
+				Inventario_Services.Movimientos().Get().send($scope.query,success_tabla).$promise
+			}
+
+			$scope.$watch('query.filter', function(newValue, oldValue) {
+		        if (!oldValue) {
+		            bookmark = $scope.query.page;
+		        }
+
+		        if (newValue !== oldValue) {
+		            $scope.query.page = 1;
+		        }
+
+		        if (!newValue) {
+		            $scope.query.page = bookmark;
+		        }
+		        $scope.get_tabla();
+		    });
+
+			$rootScope.$on("actualizar_tabla", function() {
+        		$scope.get_tabla();
+    		});
+			//----------------------------------------------------- NUEVO -----------------------------------------
+
+			$scope.nuevo_dialog=function(){
+				$mdDialog.show({
+            controller: DialogController_nuevo,
+            templateUrl: 'views/Dash/Inventario/Proveedores/new.html',
+            parent: angular.element(document.body),
+            targetEvent: event,
+            ariaLabel: 'Respuesta Registro',
+            clickOutsideToClose: false
+        	});
+			}
+
+			function DialogController_nuevo($scope,Inventario_Services,LxNotificationService) {
+
+				$scope.guardar=function(){
+					Inventario_Services.Movimientos().Add().send({proveedor:$scope.data,persona:$scope.data_persona}).$promise.then(function(data){
+						if (data.respuesta==true) {
+							$rootScope.$emit("actualizar_tabla", {});
+							$mdDialog.hide();
+							LxNotificationService.success('Se ha guardado correctamente');
+						}
+					})
+				}
+
+				$scope.cancel = function() {
+		            $mdDialog.cancel();
+		        };
+			}
+
+			//-------------------------------------------------------- DELETE  --------------------------------------------
+			$scope.dialog_eliminar=function(obj){
+				$mdDialog.show({
+            controller: DialogController_delete,
+            templateUrl: 'views/Dash/Inventario/Proveedores/delete.html',
+            parent: angular.element(document.body),
+            targetEvent: event,
+            ariaLabel: 'Respuesta Registro',
+            clickOutsideToClose: false,
+            locals:{obj:obj}
+        	});
+			}
+
+			function DialogController_delete($scope,Inventario_Services,LxNotificationService,obj) {
+				$scope.eliminar=function(){
+					Inventario_Services.Movimientos().Delete().send({id:obj.id}).$promise.then(function(data){
+						if (data.respuesta==true) {
+							$rootScope.$emit("actualizar_tabla", {});
+							$mdDialog.hide();
+							LxNotificationService.success('Se ha eliminado correctamente');
+						}
+					})
+				}
+
+				$scope.cancel = function() {
+		            $mdDialog.cancel();
+		        };
+			}
+			//-------------------------------------------------------- UPDATE  --------------------------------------------
+			$scope.dialog_update=function(obj){
+				$mdDialog.show({
+            controller: DialogController_update,
+            templateUrl: 'views/Dash/Inventario/Proveedores/update.html',
+            parent: angular.element(document.body),
+            targetEvent: event,
+            ariaLabel: 'Respuesta Registro',
+            clickOutsideToClose: false,
+            locals:{obj:obj}
+        	});
+			}
+
+			function DialogController_update($scope,Inventario_Services,LxNotificationService,obj) {
+				$scope.data_persona=obj.datos_propietario;
+				$scope.data=obj;
+				$scope.data.correo=obj.datos_contacto.correo;
+				$scope.data.telefono=obj.datos_contacto.telefono;
+				$scope.data.celular=obj.datos_contacto.celular;
+				$scope.actualizar=function(){
+					Inventario_Services.Movimientos().Update().send({proveedor:$scope.data,persona:$scope.data_persona}).$promise.then(function(data){
+						if (data.respuesta==true) {
+							$rootScope.$emit("actualizar_tabla", {});
+							$mdDialog.hide();
+							LxNotificationService.success('Se ha actualizado correctamente');
+						}
+					})
+				}
+
+				$scope.cancel = function() {
+		            $mdDialog.cancel();
+		        };
+			}
+
+	  	});

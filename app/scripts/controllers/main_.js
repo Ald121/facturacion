@@ -12,12 +12,21 @@ var app = angular.module('facturacionApp');
 app.controller('MainCtrl', function ($scope, $location,$localStorage,Login_Services,LxNotificationService,Auth) {
 	//------------------------------------------------------------------------------- Licencia -----------------------------------
 	function success_licencia(result){
-		$scope.licencia=result.respuesta;
-		console.log($scope.licencia);
+		$scope.dias_restantes=result.dias_restantes;
 	}
 
 	$scope.Get_Licencia=function(){
-		Login_Services.Licencia().Get().send({},success_licencia).$promise;
+		Login_Services.Licencia().Get().send({},success_licencia).$promise.then(function(){},function(error){
+
+			if (error.status==401) {
+				LxNotificationService.error('Actualice su licencia para seguir usando el sistema :(');
+			}
+
+			if (error.status==500) {
+				LxNotificationService.error('Ha ocurrido un error con la Licencia :(');
+			}
+
+		});
 	}
 
 	$scope.Get_Licencia();
@@ -39,7 +48,14 @@ app.controller('MainCtrl', function ($scope, $location,$localStorage,Login_Servi
 					 $scope.progreso=false;
 				}
 			},function(error){
-				 LxNotificationService.error('Ha ocurrido un error intentalo nuevamente :(');
+
+				if (error.status==401) {
+				LxNotificationService.error('Actualice su licencia para seguir usando el sistema :(');
+					}
+
+				if (error.status==500) {
+					LxNotificationService.error('Ha ocurrido un error con la Licencia :(');
+				}
 			});
 		}
 

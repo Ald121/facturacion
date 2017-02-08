@@ -370,4 +370,51 @@ angular.module('facturacionApp')
 		        
 	    	}
 
+	    	// --------------------------------------- Movimientos ---------------------------------
+    this.Movimientos = function(){
+	    		 return {
+				            Add: function() {
+				                return $resource(Servicios_Generales.server()+'Add_Movimientos', {} , {
+								            send: {
+									                method: 'POST', isArray: false,
+									                params: {
+									                    token: $localStorage.token
+									                }
+									            }
+								        });
+				            }
+				            ,Update: function() {
+				                return $resource(Servicios_Generales.server()+'Update_Movimientos', {} , {
+								            send: {
+									                method: 'POST', isArray: false,
+									                params: {
+									                    token: $localStorage.token
+									                }
+									            }
+								        });
+
+				            },Delete: function() {
+				                return $resource(Servicios_Generales.server()+'Delete_Movimientos', {} , {
+								            send: {
+									                method: 'POST', isArray: false,
+									                params: {
+									                    token: $localStorage.token
+									                }
+									            }
+								        });
+				            },Get: function() {
+				                return $resource(Servicios_Generales.server()+'Get_Movimientos', {} , {
+								            send: {
+									                method: 'POST', isArray: false,
+									                params: {
+									                    token: $localStorage.token
+									                }
+									            }
+								});
+
+				            }
+        				}
+		        
+	    	}
+
   });

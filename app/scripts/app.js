@@ -53,6 +53,7 @@ app.config(function($routeSegmentProvider, $routeProvider) {
         .when('/Dash/Inventario/Modelos', 'dashboard.modelos')
         .when('/Dash/Inventario/Productos', 'dashboard.productos')
         .when('/Dash/Inventario/Proveedores', 'dashboard.proveedores')
+        .when('/Dash/Inventario/IngresoMercaderia', 'dashboard.ingresomercaderia')
         //Facturacion
         .when('/Dash/Facturacion/Clientes', 'dashboard.clientes')
         .when('/Dash/Facturacion/Vender', 'dashboard.vender')
@@ -96,6 +97,10 @@ app.config(function($routeSegmentProvider, $routeProvider) {
         .segment('productos', {
             templateUrl: 'views/Dash/Inventario/Productos/index.html',
             controller: 'ProductosCtrl'
+        })
+        .segment('ingresomercaderia', {
+            templateUrl: 'views/Dash/Inventario/Ingreso-Mercaderia/index.html',
+            controller: 'IngresoMercaderiaCtrl'
         })
         // ----------------------------------------FACTURACION----------------------------------------//
         .segment('clientes', {
