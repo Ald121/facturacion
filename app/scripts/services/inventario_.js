@@ -243,6 +243,17 @@ angular.module('facturacionApp')
 									            }
 								});
 
+				            },
+				            Get_Productos_By_Proveedor: function() {
+				                return $resource(Servicios_Generales.server()+'Get_Productos_By_Proveedor', {} , {
+								            send: {
+									                method: 'POST', isArray: false,
+									                params: {
+									                    token: $localStorage.token
+									                }
+									            }
+								});
+
 				            }
         				}
 		        

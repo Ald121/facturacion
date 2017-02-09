@@ -847,7 +847,7 @@ app.controller('IngresoMercaderiaCtrl', function ($scope,$rootScope, $location,$
 			$scope.nuevo_dialog=function(){
 				$mdDialog.show({
             controller: DialogController_nuevo,
-            templateUrl: 'views/Dash/Inventario/Proveedores/new.html',
+            templateUrl: 'views/Dash/Inventario/Ingreso-Mercaderia/new.html',
             parent: angular.element(document.body),
             targetEvent: event,
             ariaLabel: 'Respuesta Registro',
@@ -856,6 +856,101 @@ app.controller('IngresoMercaderiaCtrl', function ($scope,$rootScope, $location,$
 			}
 
 			function DialogController_nuevo($scope,Inventario_Services,LxNotificationService) {
+				
+
+					var bookmark,bookmark2;
+				$scope.query = {
+				        filter: '',
+				        num_registros: 5,
+				        pagina_actual: 1,
+				        limit: '5',
+				        page_num: 1,
+				        proveedor:''
+				    };
+
+				$scope.$watch('query.filter', function(newValue, oldValue) {
+			        if (!oldValue) {
+			            bookmark = $scope.query.page;
+			        }
+
+			        if (newValue !== oldValue) {
+			            $scope.query.page = 1;
+			        }
+
+			        if (!newValue) {
+			            $scope.query.page = bookmark;
+			        }
+			        $scope.buscar_proveedor();
+			    });
+
+			    $scope.$watch('query.proveedor', function(newValue, oldValue) {
+			        if (oldValue.length==10||newValue.length==13) {
+			        	$scope.buscar_proveedor();
+			        }
+
+			        if (newValue.length==10||oldValue.length==13) {
+			        	$scope.buscar_proveedor();
+			        }
+			        
+			    });
+
+				function success_productos_proveedor(result){
+					if (result.respuesta!=false) {
+						$scope.data_table=result.respuesta.data;
+						$scope.data=result.proveedor;
+					}
+				}
+
+				$scope.buscar_proveedor=function(){
+						Inventario_Services.Productos().Get_Productos_By_Proveedor().send($scope.query,success_productos_proveedor).$promise;
+				}
+
+					//----------------------------------------------------- DETALLES DEL PROVEEDOR -----------------------------------------
+	    		$scope.detalles_fac=[];
+	    		$scope.add_prod_fac=function(prod){
+
+	    			if ($scope.detalles_fac.indexOf(prod)==-1) {
+	    				prod.cantidad_fac=1;
+	    				prod.total_fac=parseFloat(prod.precio.replace('$','')).toFixed($scope.decimales);
+	    				$scope.detalles_fac.push(prod);
+	    			}else{
+	    				var index=$scope.detalles_fac.indexOf(prod);
+	    				// if ($scope.detalles_fac[index].cantidad_fac<$scope.detalles_fac[index].cantidad) {
+	    					$scope.detalles_fac[index].cantidad_fac=$scope.detalles_fac[index].cantidad_fac+1;
+	    					$scope.detalles_fac[index].total_fac=parseFloat(parseFloat($scope.detalles_fac[index].precio.replace('$','')).toFixed($scope.decimales)*$scope.detalles_fac[index].cantidad_fac).toFixed(2);
+	    				// }
+	    				
+	    			}
+	    		}
+
+	    		$scope.remove_prod_fac=function(prod){
+    				var index=$scope.detalles_fac.indexOf(prod);
+    				if ($scope.detalles_fac[index].cantidad_fac>1) {
+    					$scope.detalles_fac[index].cantidad_fac=$scope.detalles_fac[index].cantidad_fac-1;
+    					$scope.detalles_fac[index].total_fac=parseFloat(parseFloat($scope.detalles_fac[index].precio.replace('$','')).toFixed($scope.decimales)*$scope.detalles_fac[index].cantidad_fac).toFixed(2);
+    				}
+
+    			// $scope.calc_totales($scope.detalles_fac);
+	    		}
+
+	    		$scope.delete_prod_fac=function(prod){
+					var index=$scope.detalles_fac.indexOf(prod);
+					$scope.detalles_fac.splice(index,1);
+	    			// $scope.calc_totales($scope.detalles_fac);
+	    		}
+
+	    		$scope.add_prod_fac_from_input=function(prod){
+	    			if (prod.cantidad_fac=="") {
+	    				prod.cantidad_fac=1;
+	    			}
+	    			// if (prod.cantidad_fac>prod.cantidad) {
+	    			// 	prod.cantidad_fac=prod.cantidad;
+	    			// 	prod.total_fac=parseFloat(parseFloat(prod.precio.replace('$','')).toFixed($scope.decimales)*prod.cantidad_fac).toFixed(2);
+	    			// }else{
+	    			// 	prod.total_fac=parseFloat(parseFloat(prod.precio.replace('$','')).toFixed($scope.decimales)*prod.cantidad_fac).toFixed(2);
+	    			// }
+	    			// $scope.calc_totales($scope.detalles_fac);
+	    		}
 
 				$scope.guardar=function(){
 					Inventario_Services.Movimientos().Add().send({proveedor:$scope.data,persona:$scope.data_persona}).$promise.then(function(data){
