@@ -38,18 +38,18 @@
             <tbody md-body>
                 <tr md-row md-select="dessert" md-select-id="name" md-auto-select ng-repeat="dessert in data_table">
                     <td md-cell>{{$index+1}}</td>
-                    <td md-cell>{{dessert.proveedor}}</td>
-                    <td md-cell>{{dessert.tipo_documento}}</td>
+                    <td md-cell>{{dessert.id_proveedor.nombre}}</td>
+                    <td md-cell>{{dessert.tipo_documento.nombre}}</td>
                     <td md-cell>{{dessert.total_movimiento}}</td>
                     <td md-cell>{{dessert.tipo_movimiento}}</td>
                     <td md-cell>{{dessert.fecha_movimiento}}</td>
                     <td md-cell>
-                        <md-button class="md-icon-button" ng-click="dialog_update(dessert)" type="button">
+<!--                         <md-button class="md-icon-button" ng-click="dialog_update(dessert)" type="button">
                             <md-tooltip md-direction="top">
                                 Modificar
                             </md-tooltip>
                             <md-icon class="md-primary">mode_edit</md-icon>
-                        </md-button>
+                        </md-button> -->
                         <md-button class="md-icon-button" ng-click="dialog_eliminar(dessert)" type="button">
                             <md-tooltip md-direction="top">
                                 Eliminar

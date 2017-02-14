@@ -40,7 +40,7 @@ app.controller('MainCtrl', function ($scope, $location,$localStorage,Login_Servi
 					$localStorage.datosUser=data.datosUser;
 					$localStorage.token=data.token;
 					// Auth.setUser(data.datosUser);
-					LxNotificationService.success('Bienvenido '+data.datosUser.id);
+					LxNotificationService.success('Bienvenido '+data.datosUser.nick);
 					$location.path('/Dash/Inicio');
 					$scope.progreso=false;
 				}else{

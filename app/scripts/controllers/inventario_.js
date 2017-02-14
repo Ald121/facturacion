@@ -805,6 +805,10 @@ app.controller('ProveedoresCtrl', function ($scope,$rootScope, $location,$localS
 
 app.controller('IngresoMercaderiaCtrl', function ($scope,$rootScope, $location,$localStorage,$mdDialog,Inventario_Services) {
 			$scope.selected=[];
+			function selectCallback(_newValue, _oldValue) {
+            console.log('Old value: ', _oldValue);
+            console.log('New value: ', _newValue);
+        	}
 			// -------------------------------------------------------PROVEEDORES------------------------------------------------------------
 			//------------------------------------------------- LLENADO DE TABLA -----------------------------------------
 
@@ -846,6 +850,7 @@ app.controller('IngresoMercaderiaCtrl', function ($scope,$rootScope, $location,$
 
 			$scope.nuevo_dialog=function(){
 				$mdDialog.show({
+			skipHide: true,
             controller: DialogController_nuevo,
             templateUrl: 'views/Dash/Inventario/Ingreso-Mercaderia/new.html',
             parent: angular.element(document.body),
@@ -857,6 +862,17 @@ app.controller('IngresoMercaderiaCtrl', function ($scope,$rootScope, $location,$
 
 			function DialogController_nuevo($scope,Inventario_Services,LxNotificationService) {
 				
+				var cm=$scope;
+
+				function succes_tipo_documentos(result){
+					cm.selectCallback = selectCallback;
+			        cm.ListaTipo_Documentos = result.respuesta.data;
+			        cm.ModelTipo_Documentos = {
+			            selectedTipo_Doc: undefined
+			        };
+				}
+
+				Inventario_Services.Tipo_Documentos().Get().send({},succes_tipo_documentos).$promise;
 
 					var bookmark,bookmark2;
 				$scope.query = {
@@ -951,9 +967,213 @@ app.controller('IngresoMercaderiaCtrl', function ($scope,$rootScope, $location,$
 	    			// }
 	    			// $scope.calc_totales($scope.detalles_fac);
 	    		}
+	    		//------------------------------------------------------------ AÑADIR PRODUCTOS--------------------------------------
+
+	    		$scope.nuevo_prod_dialog=function(){
+				$mdDialog.show({
+				skipHide: true,
+	            controller: DialogProdController_nuevo,
+	            templateUrl: 'views/Dash/Inventario/Productos/new.html',
+	            parent: angular.element(document.body),
+	            targetEvent: event,
+	            ariaLabel: 'Respuesta Registro',
+	            clickOutsideToClose: false
+	        	});
+				}
+
+				function DialogProdController_nuevo($localStorage,$scope,Inventario_Services,LxNotificationService,Servicios_Generales,FileUploader) {
+
+				// ------------------------------LLENADO SELECTS ------------------------------
+				function succes_impuestos(result){
+					cm.selectCallback = selectCallback;
+			        cm.ListaImpuestos = result.respuesta.data;
+			        cm.ModelImpuestos = {
+			            selectedPerson: undefined,
+			            selectedPeople: [],
+			            selectedPeopleSections: [],
+			            selectedVegetables: []
+			        };
+				}
+
+				Inventario_Services.Impuestos().Get().send({},succes_impuestos).$promise;
+				var cm = $scope;
+				function succes_categorias(result){
+			        cm.selectCallback = selectCallback;
+			        cm.ListCategorias = result.respuesta.data;
+			        cm.ModelCategorias = {
+			            selectedCategoria: undefined
+			        };
+				}
+				Inventario_Services.Categorias().Get().send({},succes_categorias).$promise;
+
+				function succes_Tipo_gastos(result){
+			        cm.selectCallback = selectCallback;
+			        cm.ListTipoGastos = result.respuesta.data;
+			        cm.ModelTipoGastos = {
+			            selectedTipoGastos: undefined
+			        };
+				}
+				Inventario_Services.Tipo_Gastos().Get().send({},succes_Tipo_gastos).$promise;
+
+				function succes_Modelos(result){
+			        cm.selectCallback = selectCallback;
+			        cm.LIstaModelos = result.respuesta.data;
+			        cm.ModelModelos = {
+			            selectedModelo: undefined
+			        };
+				}
+				Inventario_Services.Modelos().Get().send({},succes_Modelos).$promise;
+
+
+				function succes_Marcas(result){
+			        cm.selectCallback = selectCallback;
+			        cm.ListaMarcas = result.respuesta.data;
+			        cm.ModelMarcas = {
+			            selectedMarca: undefined
+			        };
+				}
+				Inventario_Services.Marcas().Get().send({},succes_Marcas).$promise;
+
+				function succes_Unidades(result){
+			        cm.selectCallback = selectCallback;
+			        cm.ListUnidades = result.respuesta.data;
+			        cm.ModelUnidades = {
+			            selectedUnidad: undefined
+			        };
+			        console.log(cm.ListUnidades);
+				}
+				Inventario_Services.Unidades().Get().send({},succes_Unidades).$promise;
+			        
+			    // ------------------------------FIN LLENADO SELECTS ------------------------------
+			    // ------------------------------ PROVEEDOR -------------------------------------
+
+			    $scope.buscar_proveedor=function(){
+			    	if ($scope.ruc_proveedor!=undefined) {
+				    	if ($scope.ruc_proveedor.length==10||$scope.ruc_proveedor.length==13) {
+				    		Inventario_Services.Proveedores().Get_Proveedor_By_Ruc().send({ruc: $scope.ruc_proveedor}).$promise.then(function(data){
+				    			if (data.respuesta==true) {
+				    				$scope.data_proveedor=data.proveedor;
+				    				$scope.no_proveedor=false;
+				    			}else{
+				    				$scope.no_proveedor=true;
+				    			}		                     
+			                });
+				    	}else {
+				    		$scope.data_proveedor="";
+				    		$scope.no_proveedor=true;
+				    	}
+			    	}
+			    }
+
+			    //-------------------------------- SUBIR IMAGENES -------------------------------
+			    var uploader = $scope.uploader = new FileUploader({
+			        url: Servicios_Generales.server()+'Add_Productos',
+			        headers: {
+			        Authorization: 'Bearer ' + $localStorage.token
+			        },
+			        removeAfterUpload:true,
+			        queueLimit: 1
+			    });
+
+			    // FILTERS
+			    uploader.filters.push({
+			        name: 'customFilter',
+			        fn: function(item /*{File|FileLikeObject}*/, options) {
+			            return this.queue.length < 10;
+			        }
+			    });
+
+			    uploader.onAfterAddingFile = function(fileItem) {
+
+			    var modelo =(cm.ModelModelos.selectedModelo!=undefined)? cm.ModelModelos.selectedModelo.id:0;
+
+			    $scope.data_producto.impuestos=JSON.stringify($scope.ModelImpuestos.selectedPeople);
+			    $scope.data_producto.categoria=cm.ModelCategorias.selectedCategoria.id;
+			    $scope.data_producto.tipo_gasto=cm.ModelTipoGastos.selectedTipoGastos.id;
+			    $scope.data_producto.modelo=modelo;
+			    $scope.data_producto.marca=cm.ModelMarcas.selectedMarca.id;
+			    $scope.data_producto.token=$localStorage.token;
+			    $scope.data_producto.proveedor=$scope.data_proveedor.ruc;
+	            fileItem.formData.push($scope.data_producto);
+			    };
+
+			     uploader.onSuccessItem = function(response, status) {
+		            if (status.respuesta==true) {
+		            	$rootScope.$emit("actualizar_tabla", {});
+							$mdDialog.hide();
+							LxNotificationService.success('Se ha Creado correctamente');
+		            }else{
+		            	LxNotificationService.success('Ha Ocurrido un error Intentalo Nuevamente');
+		            }
+		        };
 
 				$scope.guardar=function(){
-					Inventario_Services.Movimientos().Add().send({proveedor:$scope.data,persona:$scope.data_persona}).$promise.then(function(data){
+
+				var modelo =(cm.ModelModelos.selectedModelo!=undefined)? cm.ModelModelos.selectedModelo.id:0;
+
+			    $scope.data_producto.impuestos=JSON.stringify($scope.ModelImpuestos.selectedPeople);
+			    $scope.data_producto.categoria=cm.ModelCategorias.selectedCategoria.id;
+			    $scope.data_producto.tipo_gasto=cm.ModelTipoGastos.selectedTipoGastos.id;
+			    $scope.data_producto.unidad=cm.ModelUnidades.selectedUnidad.id;
+			    $scope.data_producto.modelo=modelo;
+			    $scope.data_producto.marca=cm.ModelMarcas.selectedMarca.id;
+			    $scope.data_producto.token=$localStorage.token;
+			    $scope.data_producto.proveedor=$scope.data_proveedor.ruc;
+
+
+					for (var i = 0; i < $scope.uploader.queue.length; i++) {
+						$scope.uploader.queue[i].formData[0]=$scope.data_producto
+						console.log($scope.uploader.queue[i]);
+					}
+					$scope.uploader.uploadAll();
+				}
+
+
+		        $scope.isImage=function(item) {
+		            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+		            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+		        }
+
+				$scope.cancel = function() {
+		            $mdDialog.cancel();
+		        };
+			}
+			//-------------------------------------------------------------- AÑADIR PROVEEDOR 
+			$scope.nuevo_prov_dialog=function(event){
+				$mdDialog.show({
+				skipHide: true,
+	            controller: DialogProvController_nuevo,
+	            templateUrl: 'views/Dash/Inventario/Proveedores/new.html',
+	            parent: angular.element(document.body),
+	            targetEvent: event,
+	            ariaLabel: 'Respuesta Registro',
+	            clickOutsideToClose: false
+	        	});
+				}
+
+				function DialogProvController_nuevo($scope,Inventario_Services,LxNotificationService) {
+
+				$scope.guardar=function(){
+					Inventario_Services.Proveedores().Add().send({proveedor:$scope.data,persona:$scope.data_persona}).$promise.then(function(data){
+						if (data.respuesta==true) {
+							$rootScope.$emit("actualizar_tabla", {});
+							$mdDialog.hide();
+							LxNotificationService.success('Se ha guardado correctamente');
+						}
+					})
+				}
+
+				$scope.cancel = function() {
+		            $mdDialog.cancel();
+		        };
+			}
+
+			//Guardar Ingreso
+				$scope.guardar_ingreso=function(){
+					$scope.data.tipo_movimiento='IN';
+					$scope.data.tipo_documento=cm.ModelTipo_Documentos.selectedTipo_Doc.id;
+					$scope.data.ingreso_total=$scope.ingreso_total;
+					Inventario_Services.Movimientos().Add().send({proveedor:$scope.data,detalles:$scope.detalles_fac}).$promise.then(function(data){
 						if (data.respuesta==true) {
 							$rootScope.$emit("actualizar_tabla", {});
 							$mdDialog.hide();

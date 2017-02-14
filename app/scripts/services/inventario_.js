@@ -428,4 +428,22 @@ angular.module('facturacionApp')
 		        
 	    	}
 
+	    	// --------------------------------------- TIPOS DOCUMENTOS ---------------------------------
+    this.Tipo_Documentos = function(){
+	    		 return {
+				         Get: function() {
+				                return $resource(Servicios_Generales.server()+'Get_Tipo_Documentos', {} , {
+								            send: {
+									                method: 'POST', isArray: false,
+									                params: {
+									                    token: $localStorage.token
+									                }
+									            }
+								});
+
+				            }
+        				}
+		        
+	    	}
+
   });

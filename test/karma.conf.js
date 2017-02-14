@@ -39,6 +39,10 @@ module.exports = function(config) {
       'bower_components/angular-material-data-table/dist/md-data-table.js',
       'bower_components/angular-io-barcode/build/angular-io-barcode.js',
       'bower_components/angular-file-upload/dist/angular-file-upload.min.js',
+      'bower_components/angularPrint/angularPrint.js',
+      'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+      'bower_components/lf-ng-md-file-input/dist/lf-ng-md-file-input.js',
+      'bower_components/angular-input-masks/angular-input-masks-standalone.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

@@ -1,0 +1,36 @@
+<md-button ng-href="#/Inventario/" aria-label="btn_in">Reportes</md-button>/
+<!-- <md-button ng-disabled="true" class="md-primary" aria-label="btn_in">Generar</md-button> -->
+<!-- <md-button class="md-icon-button" ng-click="nuevo_dialog($event)" aria-label="Add">
+<md-icon md-svg-icon="images/icons/add.svg"></md-icon>
+<md-tooltip md-direction="bottom" >
+          Vender
+</md-tooltip>   
+</md-button> -->
+<md-divider></md-divider>
+<md-content layout="row">
+    <md-card flex>
+        <md-card-header>
+            <md-card-avatar>
+            </md-card-avatar>
+            <md-card-header-text>
+                <span class="md-title">PRODUCTOS MÁS VENDIDOS</span>
+                <span class="md-subhead">Productos</span>
+            </md-card-header-text>
+        </md-card-header>
+        <canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels"></canvas>
+    </md-card>
+
+    <md-card flex>
+    <md-card-header>
+            <md-card-avatar>
+            </md-card-avatar>
+            <md-card-header-text>
+                <span class="md-title">RESUMEN DE VENTAS (c/Mes)</span>
+                <span class="md-subhead">Facturación</span>
+            </md-card-header-text>
+        </md-card-header>
+        <canvas id="line" class="chart chart-line" chart-data="data_ventas" chart-series="['Nro. Ventas','Nro. Ventas']" chart-labels="meses" chart-options="options" >
+        </canvas>
+    </md-card>
+
+</md-content>

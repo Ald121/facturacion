@@ -8,14 +8,34 @@
                                 <md-button class="md-secondary" disabled><strong>PROVEEDOR</strong></md-button>
                                 <md-divider></md-divider>
                             </div>
-                            <md-button class="md-icon-button" ng-click="nuevo_dialog($event)" aria-label="Add">
+                            <md-button class="md-icon-button" ng-click="nuevo_prov_dialog($event)" aria-label="Add">
                                 <md-icon md-svg-icon="images/icons/add.svg"></md-icon>
                                 <md-tooltip md-direction="bottom" >
                                           Añadir Proveedor
                                 </md-tooltip>   
                             </md-button>
                     </div>
+                 <div layout="row">
+                    <div class="md-icon-float md-block" flex>
+                                        <lx-select ng-model="ModelTipo_Documentos.selectedTipo_Doc" lx-fixed-label="true" lx-allow-clear="true" lx-choices="ListaTipo_Documentos" lx-display-filter="true" lx-fixed-label="true" lx-label="Documento" required>
+                                            <lx-select-selected>
+                                                {{ $selected.nombre }}
+                                            </lx-select-selected>
+                                            <lx-select-choices>
+                                                {{ $choice.nombre }}
+                                            </lx-select-choices>
+                                        </lx-select>
+                                        <div ng-show="ModelTiposDoc.selectedTipo_Doc==undefinied" style="color: rgba(255, 0, 0, 0.64);  font-size: 12px;">Campo Requerido *</div>
+                        </div>
+                </div>
         <div layout="row">
+                    <md-input-container class="md-icon-float md-block" flex>
+                        <label>Ingreso total</label>
+                        <input name="ingreso_total" ng-model="ingreso_total" type="text" ui-number-mask="2" required>
+                        <div ng-messages="form_add.ingreso_total.$error">
+                            <div ng-message="required" ng-show="form_add.ingreso_total.$error.required">Campo Requerido</div>
+                        </div>
+                    </md-input-container>
                     <md-input-container class="md-icon-float md-block" flex>
                         <label>CI/RUC (Proveedor)</label>
                         <input name="ruc_ci" ng-model="query.proveedor" type="text" limit-to="13" numeros-only required>
@@ -27,12 +47,12 @@
                     </md-input-container>
                     <md-input-container class="md-icon-float md-block" flex>
                         <label>Nombre</label>
-                        <input name="nombre" ng-model="data.nombre" type="text" letras-only  letras-only required readonly>
+                        <input name="nombre" ng-model="data.nombre" type="text"  letras-only required readonly>
                         <div ng-messages="form_add.nombre.$error">
                             <div ng-message="required" ng-show="form_add.nombre.$error.required">Campo Requerido</div>
                         </div>
                     </md-input-container>
-                                        <md-input-container class="md-icon-float md-block" flex>
+                    <md-input-container class="md-icon-float md-block" flex>
                         <label>Correo</label>
                         <input name="correo" ng-model="data.datos_contacto.correo" type="email"  required readonly>
                         <div ng-messages="form_add.correo.$error">
@@ -40,6 +60,7 @@
                             <div ng-message="required" ng-show="form_add.correo.$error.required">Campo Requerido</div>
                         </div>
                     </md-input-container>
+
                     </div>
                     <div layout="row">
                         <md-input-container class="md-icon-float md-block" flex="90" aria-label="Close">
@@ -50,7 +71,7 @@
 
                           <md-input-container class="md-icon-float md-block" flex="10" aria-label="Close">
                              <md-button class="md-icon-button" ng-click="nuevo_prod_dialog($event)" aria-label="Add">
-                                <md-icon md-svg-icon="images/icons/add.svg"></md-icon>
+                                <md-icon md-svg-icon="images/icons/prod-add.svg"></md-icon>
                                 <md-tooltip md-direction="bottom" >
                                           Añadir Producto
                                 </md-tooltip>   
@@ -107,7 +128,6 @@
                     <th md-column md-order-by="nameToLower"><span>CANTIDAD</span></th>
                     <th md-column md-numeric>PRODUCTO</th>
                     <th md-column md-numeric>PVP</th>
-                    <th md-column md-numeric>TOTAL</th>
                     <th md-column md-numeric>QUITAR</th>
                 </tr>
             </thead>
@@ -133,7 +153,6 @@
                         </td>
                     <td md-cell>{{dessert.nombre_corto}}</td>
                     <td md-cell>{{dessert.precio}}</td>
-                    <td md-cell>{{dessert.total_fac}}</td>
                     <td md-cell>
                         <md-button class="md-icon-button" ng-click="delete_prod_fac(dessert)" type="button">
                             <md-tooltip md-direction="top">
@@ -164,6 +183,6 @@
         <md-dialog-actions layout="row">
             <md-button ng-click="cancel()">CANCELAR</md-button>
             <!-- <md-button type="button" class="md-raised md-primary">GUARDAR CAMBIOS</md-button> -->
-            <md-button class="md-raised md-primary" type="submit" ng-click="guardar_factura()" ng-disabled="detalles_fac.length==0">INGRESAR MERCADERIA</md-button>
+            <md-button class="md-raised md-primary" type="submit" ng-click="guardar_ingreso()" ng-disabled="detalles_fac.length==0||form_add.$invalid">INGRESAR MERCADERIA</md-button>
         </md-dialog-actions>
 </md-dialog>

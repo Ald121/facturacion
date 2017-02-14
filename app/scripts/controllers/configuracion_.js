@@ -44,7 +44,6 @@ var app =angular.module('facturacionApp');
 
             formData.append('token', $localStorage.token);
 
-            console.log($scope.files);
 
             angular.forEach($scope.files,function(obj){
                 if(!obj.isRemote){
