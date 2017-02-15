@@ -27,5 +27,21 @@ this.Productos = function(){
 		        
 	    	}
 
+this.Facturacion = function(){
+	 return {
+	            ventas_x_mes: function() {
+	                return $resource(Servicios_Generales.server()+'Get_Ventas_X_Mes', {} , {
+					            send: {
+						                method: 'POST', isArray: false,
+						                params: {
+						                    token: $localStorage.token
+						                }
+						            }
+					        });
+	            }
+			}
+    
+}
+
 
   });

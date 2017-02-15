@@ -850,7 +850,7 @@ app.controller('IngresoMercaderiaCtrl', function ($scope,$rootScope, $location,$
 
 			$scope.nuevo_dialog=function(){
 				$mdDialog.show({
-			skipHide: true,
+			multiple: true,
             controller: DialogController_nuevo,
             templateUrl: 'views/Dash/Inventario/Ingreso-Mercaderia/new.html',
             parent: angular.element(document.body),
@@ -971,7 +971,7 @@ app.controller('IngresoMercaderiaCtrl', function ($scope,$rootScope, $location,$
 
 	    		$scope.nuevo_prod_dialog=function(){
 				$mdDialog.show({
-				skipHide: true,
+				multiple: true,
 	            controller: DialogProdController_nuevo,
 	            templateUrl: 'views/Dash/Inventario/Productos/new.html',
 	            parent: angular.element(document.body),
@@ -1141,7 +1141,7 @@ app.controller('IngresoMercaderiaCtrl', function ($scope,$rootScope, $location,$
 			//-------------------------------------------------------------- AÑADIR PROVEEDOR 
 			$scope.nuevo_prov_dialog=function(event){
 				$mdDialog.show({
-				skipHide: true,
+				multiple: true,
 	            controller: DialogProvController_nuevo,
 	            templateUrl: 'views/Dash/Inventario/Proveedores/new.html',
 	            parent: angular.element(document.body),
