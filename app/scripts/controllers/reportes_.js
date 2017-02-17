@@ -10,7 +10,22 @@
 var app =angular.module('facturacionApp');
   app.controller('ReportesCtrl', function ($scope,$rootScope,Proformas_Services,Reportes_Services,$window,$mdDialog,LxNotificationService,$localStorage ) {
 		
-		console.log('reportes');
+$scope.ListMeses=[
+{id:0,nombre:"TODOS"},
+{id:1,nombre:"ENERO"},
+{id:2,nombre:"FEBRERO"},
+{id:3,nombre:"MARZO"},
+{id:4,nombre:"ABRIL"},
+{id:5,nombre:"MAYO"},
+{id:6,nombre:"JUNIO"},
+{id:7,nombre:"JULIO"},
+{id:8,nombre:"AGOSTO"},
+{id:9,nombre:"SEPTIEMBRE"},
+{id:10,nombre:"OCTUBRE"},
+{id:11,nombre:"NOVIEMBRE"},
+{id:12,nombre:"DICIEMBRE"}
+];
+
 //Productos Mas Vendidos
   
 function succes_mas_vendidos(result){
@@ -21,18 +36,31 @@ Reportes_Services.Productos().Mas_vendidos().send({},succes_mas_vendidos).$promi
 
 			if (error.status==401) {
 				LxNotificationService.error('Su sesión ha caducado');
+                $localStorage.$reset();
 			}
 
 			if (error.status==500) {
 				LxNotificationService.error('Ha ocurrido un error ');
 			}
-			$localStorage.reset();
+			
 
-		});;
-
-
+});
 
 //VENTAS POR MES 
+
+function selectCallback(_newValue, _oldValue) {
+            console.log('Old value: ', _oldValue);
+            console.log('New value: ', _newValue);
+            }
+
+var bookmark;
+$scope.ModelMes = {
+                    selectedMes: $scope.ListMeses[0]
+                  };
+
+$scope.$watch('ModelMes.selectedMes', function(newValue, oldValue) {
+        $scope.get_ventas_x_mes();
+    });
 
 $scope.series_x_mes=['Nro. Ventas'];
 function succes_x_mes(result){
@@ -62,24 +90,33 @@ var chart = new Chart(angular.element(document.querySelector('#line')), {
                     }
                 }
             ]
+        },
+        title: {
+            position:'left',
+            display: true,
+            text: 'NRO DE VENTAS'
         }
     }
 });
 
 }
-Reportes_Services.Facturacion().ventas_x_mes().send({},succes_x_mes).$promise.then(function(){},function(error){
+$scope.get_ventas_x_mes=function(){
 
-			if (error.status==401) {
-				LxNotificationService.error('Su sesión ha caducado');
-				$localStorage.reset();
-			}
+    Reportes_Services.Facturacion().ventas_x_mes().send({mes:$scope.ModelMes.selectedMes},succes_x_mes).$promise.then(function(){},function(error){
 
-			if (error.status==500) {
-				LxNotificationService.error('Ha ocurrido un error ');
-			}
-			
+            if (error.status==401) {
+                LxNotificationService.error('Su sesión ha caducado');
+                $localStorage.$reset();
+            }
 
-		});;
+            if (error.status==500) {
+                LxNotificationService.error('Ha ocurrido un error ');
+            }
+
+        });
+
+}
+
 
 
 
